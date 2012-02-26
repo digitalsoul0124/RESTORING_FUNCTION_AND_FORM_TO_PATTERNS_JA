@@ -1,0 +1,144 @@
+\documentclass[11pt,a4paper]{jsarticle}
+%
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{ascmac}
+
+\usepackage{helvet}
+
+%
+%\setlength{\textwidth}{\fullwidth}
+%\setlength{\textheight}{39\baselineskip}
+%\addtolength{\textheight}{\topskip}
+%\setlength{\voffset}{-0.5in}
+%\setlength{\headsep}{0.3in}
+%
+%
+%\pagestyle{myheadings}
+
+\usepackage[deluxe]{otf}
+\usepackage[dvipdfmx]{color}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{framed}
+\usepackage{wrapfig}
+\definecolor{shadecolor}{gray}{0.9}
+\definecolor{shadecolorb}{gray}{0.1}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{colortbl}
+\usepackage{tabularx}
+
+%\usepackage{jumoline}
+
+\usepackage{float}
+\usepackage{alltt}
+\usepackage{url}
+
+\newenvironment{shadedb}{%
+  \def\FrameCommand{\fboxsep=\FrameSep \colorbox{shadecolorb}}%
+  \MakeFramed {\FrameRestore}}%
+ {\endMakeFramed}
+
+
+%\usepackage[top=10zw,bottom=12zw,left=10zw,right=10zw]{geometry}
+%\usepackage[top=5zw,bottom=5zw,left=1zw,right=1zw]{geometry}
+
+
+\newcommand{\parasep}{\vspace*{3zh}}
+\setlength{\footskip}{30pt}
+
+\usepackage[dvipdfm,bookmarks=true,bookmarksnumbered=true,colorlinks=true,%
+            pdftitle={パターンに機能と型を取り戻す},%
+            pdfauthor={James O. Coplien, Yukei Wachi}]{hyperref}
+
+%% Bookmarkの文字化け対策（日本語向け）
+\ifnum 46273=\euc"B4C1 % 46273 == 0xB4C1 == 漢(EUC-JP)
+  \AtBeginDvi{\special{pdf:tounicode EUC-UCS2}}%
+\else
+  \AtBeginDvi{\special{pdf:tounicode 90ms-RKSJ-UCS2}}%
+\fi
+
+\newenvironment{reviewimage}{%
+  \begin{figure}[H]
+    \begin{center}}{%
+    \end{center}
+  \end{figure}}
+
+\newenvironment{reviewdummyimage}{%
+  \begin{figure}[H]
+    \begin{center}}{%
+    \end{center}
+  \end{figure}}
+
+\newenvironment{reviewemlist}{%
+  \medskip\small\begin{shaded}\setlength{\baselineskip}{1.3zw}}{%
+  \end{shaded}}
+
+\newenvironment{reviewlist}{%
+  \parindent = 0pt
+  \begin{shaded}\small\setlength{\baselineskip}{1.3zw}}{%
+  \end{shaded} \par\vspace*{0.5zw}}
+
+\newenvironment{reviewcmd}{%
+  \parindent = 0pt
+  \color{white}\medskip\small\begin{shadedb}\setlength{\baselineskip}{1.3zw}}{%
+  \end{shadedb}}
+
+\newenvironment{reviewtable}[1]{%
+  \begin{center}\small\setlength{\baselineskip}{1.2zw}
+    \begin{tabular}{#1}}{%
+    \end{tabular}
+  \end{center}}
+
+\newenvironment{reviewcolumn}{%
+     \begin{framed}
+   }{%
+      \end{framed}
+  \vspace{2zw}}
+
+\newcommand{\reviewcolumnhead}[2]{%
+{\noindent\large ■コラム: #2}}
+
+\newcommand{\reviewtablecaption}[1]{%
+  \caption{#1}}
+
+\newcommand{\reviewbackslash}[0]{%
+  \textbackslash{}}
+
+\newcommand{\reviewlistcaption}[1]{%
+  \medskip{\small\noindent #1}\vspace*{-1.3zw}}
+
+\newcommand{\reviewemlistcaption}[1]{%
+  \medskip{\small\noindent #1}\vspace*{-1.3zw}}
+
+\newcommand{\reviewcmdcaption}[1]{%
+  \medskip{\small\noindent #1}\vspace*{-1.3zw}}
+
+\newcommand{\reviewimageref}[1]{%
+  図 #1}
+\newcommand{\reviewtableref}[1]{%
+  表 #1}
+\newcommand{\reviewlistref}[1]{%
+  リスト #1}
+
+\newcommand{\reviewminicolumntitle}[1]{%
+  {\large ■メモ：#1}\\}
+
+\newenvironment{reviewminicolumn}{%
+  \vspace{1.5zw}\begin{screen}}{%
+  \end{screen}\vspace{2zw}}
+
+\newcommand{\reviewkw}[1]{%
+  \textbf{\textgt{#1}}}
+
+\newcommand{\reviewtitlefont}[0]{%
+  \usefont{T1}{phv}{b}{n}\gtfamily}
+
+\newcommand{\reviewmainfont}[0]{%
+ }
+
+\begin{document}
+\input{DCI_ja_body.tex}
+\end{document}  

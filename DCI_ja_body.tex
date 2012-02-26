@@ -1,0 +1,1110 @@
+%RESTORING FUNCTION AND FORM TO PATTERNS
+\part*{パターンに機能と型を取り戻す}
+%DCI AS AGILE'S EXPRESSION OF ARCHITECTURE 
+\section*{アジャイルにおいてアーキテクチャを表現するDCI}
+\begin{flushright} 
+James O. Coplien （著） \\
+和智　右桂 Growth xPartners Inc. （翻訳）\\
+日本語版 Ver 1.01 (2012/2/27 更新)
+\end{flushright} 
+\begin{reviewimage}
+\includegraphics[width=120mm]{toppage.eps}
+\end{reviewimage}
+
+\begin{center} 
+Copyright \copyright  2010   Gertrud \& Cope.  All rights reserved. 
+\end{center} 
+\thispagestyle{empty}
+\newpage
+
+\section*{はじめに}
+本稿はJames O. Coplien氏の論文「Restoring Function and Form to Patterns」（\url{http://www.software-architect.co.uk/slides/sa10-JimCoplien_Patterns.pdf}）の全文を、氏の許可を得て翻訳したものです。
+
+%Abstract 
+\section*{要約}
+
+%More than 15 years ago, we laid the foundations for the software pattern discipline   --   a discipline that has become an enduring staple of software architecture.   The initial community distinguished patterns from other approaches with high ideals related to systems thinking and beauty.  Many of these ideals reflect age-old thinking about systems and form from fields as diverse as urban planning and biology.  However, the community's body of literature soon degenerated to the point of showing little distinction from its contemporaries   except in its volume.  This paper is based on a talk that described a vision for systems thinking in IT architecture, drawing on the principles that originally launched the pattern discipline.  The talk argued that by focusing on system form, including the form of function, we can build better systems with lower lifetime cost than is currently possible with patterns.   Together we'll consider both popular and emerging architectural notions to ground this vision.
+
+15年以上前、我々はソフトウェア・パターン学派のために基盤を築いた。---そして、この規範は後に長いこと、ソフトウェア・アーキテクチャの中心となった。最初のコミュニティは、体系的な思考や美と結びついた崇高な理念を掲げていたので、パターンはその他のアプローチとは格の違うものとなっていた。これらの理念の多くは、システムについて長年考えられてきたことを反映しており、都市計画や生物学といった多様なフィールドから形作られている。しかし、コミュニティの文献はすぐに変質し、当時あったその他のものと、大差なくなってしまった。唯一の違いは、数が多かったことくらいである。本論文はITアーキテクチャにおける体系的な思考に関する展望について、私が説明した時の話に基づいている。議論の際には、当初パターン学派を生み出した原則を活用した。ここでは、機能の形式を含むシステムの型に集中することによって、現在パターンを用いて実現されるよりも安い生涯コストで、よりよいシステムを構築することができると主張した。同時に、我々はアーキテクチャの概念のうち、一般に普及しているものと、新たに台頭してきたものを両方とも考慮することで、この展望に基礎を与えることにする。
+
+%Patterns' Origins in Architecture and in Alexander's Ideals 
+\section*{アーキテクチャとAlexanderの理念に見るパターンの起源}
+%Patterns have been popularized by the architect Christopher Alexander in the 20th century as a design formalism.  Alexander uses patterns as a guide to construction at human levels of scale,   from towns and neighborhoods down to houses and rooms.  Patterns are system elements grounded in experience that compose with each other in a process of piecemeal growth and adaptation:
+
+パターンは、20世紀の建築家Christopher Alexanderによって、設計の形式主義として普及した。Alexanderは、人間の尺度に合わせて建築を行うための指針としてパターンを使う。こうした建築は、広くは街や地区に始まり、狭くは家や部屋も含む。パターンは体系を構成する要素である。そして、小刻みな成長と適合のプロセスの中で、相互に構成し合うという経験に基づいているのだ：
+
+
+\begin{quote}
+%We may regard a pattern as an empirically grounded imperative which states the preconditions for healthy individual and social life in a community.  (Christopher Alexander, The Oregon Experiment, Ch. 4)   
+
+パターンのことは、経験に基づいた命令文で、コミュニティにおける個人の生活と社会生活が健康的であるための前提条件を述べているものと見なすことができるかもしれない。（Christopher Alexander, \textit{The Oregon Experiment}, Chapter 4）
+\end{quote}
+
+%Every pattern is grounded in experience, has form, and is human-focused.   For example, consider the pattern A PLACE TO WAIT:
+
+あらゆるパターンは経験に基づいていて、型（form）を持ち、人間に焦点を当てている。たとえば、待ち合わせ場所（A PLACE TO WAIT）パターンについて考えてほしい。
+
+\begin{quote}
+%The process of waiting has inherent conflicts in it.  One on hand, whatever people are waiting for-- the doctor, an airplane, a business appointment-- has built-in un-certainties, which make it inevitable that they must spend a long time hanging around, waiting, doing nothing.
+
+\textsf{待つというプロセスは、その性質上、矛盾を抱えている。}
+
+何を待っているのであれ（医者でも、飛行機でも、あるいは業務上の約束でも）待つということには、不確実性が組み込まれている。そのため、待っている人は、ダラダラしながら、何もしないで長い時間を費やさなければならない。
+
+%On the other hand, they cannot usually afford to enjoy this time.  Because it is unpredictable, they must hang at the very door.  Since they never know exactly when their turn will come, they cannot even take a stroll or sit outside...
+
+その一方で、普通はこの時間を楽しむ余裕はない。いつ待ち人が来るかが予測できないから、その場に張りついていなければならないからだ。いつ自分の番になるかが正確にはわからないので、散歩をすることもできず、外で座っていることすらできない...
+
+%...
+（中略）
+
+%Therefore:
+
+それゆえ：
+
+%In places where people end up waiting, create a situation which makes the waiting positive.  Fuse the waiting with some other activity  --newspaper, coffee, pool tables, horseshoes;  something which draws people in who are not simply waiting.  And also the opposite:  make a place which can draw a person waiting into a reverie;  quiet;  a positive silence.  (Christopher Alexander, A Pattern Language, 1977, pp. 707-711)  
+
+\textsf{人々が待つことになる場所では、待つということを前向きにとらえられるような状況を作ること。待つことを、なにか他の活動と融合させること。新聞やコーヒー、玉突き台や蹄鉄など、単に待っているだけではないようにしてくれる活動と融合させるのだ。ただし、逆もまた然りである。その場所で待っている人が、物思いにふけることができるようにすること。それに必要なのは、静けさとポジティブな沈黙である。}（Christopher Alexander, \textit{A Pattern Language}, 1977, pp. 707-711）
+\end{quote}
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{placeToWait.eps}
+\end{reviewimage}
+
+%Alexander relates three properties of patterns that have become staples of software development.  Patterns go hand-in-hand with an underlying process.  First, the process of building with patterns is incremental:
+
+Alexanderは、パターンの持つ3つの特性を関係づけている。この特性が後に、ソフトウェア開発の中心部分になった。パターンは、その根底にあるプロセスと手に手を取って進んでいく。まず第一に、パターンによる建築のプロセスはインクリメンタルである。
+
+\begin{quote}
+%Piecemeal growth is based on the assumption that adaptation between buildings and their users is necessarily a slow and continuous business   which cannot, under any circumstances, be achieved in a single leap.  (Christopher Alexander, The Oregon Experiment, p. 69)   
+
+小刻みに成長させるという考え方は、建物とユーザーの間で生じる適合が、ゆっくりと継続して行われるという想定に基づいている。どんな状況であっても、こうした適合は一足飛びに成し遂げることはできない。（Christopher Alexander, \textit{The Oregon Experiment}, p.69）
+\end{quote}
+
+%Second, it is grounded deep in human sensibilities,   more so than in just engineering practices:  
+
+第二に、パターンによる建築のプロセスは、人間の感性に深く基づいていて、単にエンジニアリングを実践するというだけではないのだ。
+
+\begin{quote}
+%What we need is a way of understanding the forces which cuts through this intellectual difficulty and goes closer to the empirical core.
+
+\textsf{我々に必要なのは、こうした知的な困難を切り開いて進み、経験的に得られる核心に近づいていくような力を理解する方法である。}
+
+%…  To do this, we must rely on feelings more than intellect.  (Christopher Alexander, The Timeless Way of Building, Chapter 15)   
+（中略）
+
+\textsf{そのためには、我々は知性よりも感性に頼らなければならない。}（Christopher Alexander, \textit{The Timeless Way of Building}, Chapter 15）
+\end{quote}
+
+%Third, the process is iterative:  
+
+第三に、このプロセスはイテレーティブである。
+
+\begin{quote}
+%... several acts of building, each one done to repair and magnify the product of the previous acts, will slowly generate a larger and more complex whole than any single act can generate   (Christopher Alexander, op. cit., Ch. 24)   
+
+…建築という行為は、以前の行為によって生み出されたものを修理したり、補強したりするために行われるものである。こうした行為が集まることで、一回の行為ではどうしても生み出すことのできない、より大きく、より複雑な全体を少しずつ生み出すことになるだ。（Christopher Alexander, 前掲書, Chapter 24）
+\end{quote}
+
+%The notion of process is fundamental to patterns' place in system evolution.  We grow a system one pattern at a time.  While patterns are elements of form, it is also useful to think of them as functional transformations on a system   that map the system from one state to another.  So the pattern LIGHT ON TWO SIDES OF EVERY ROOM transforms a dark house into one where every room is bathed in light from multiple natural sources.  We apply this pattern, at least conceptually, to a house that already has found its building site and has been roughly partitioned into rooms.
+
+プロセスという概念は、システムが進化する際にパターンの果たす役割の基礎となる。我々は、システムを１度に１パターンずつ発達させる。パターンとは型を構成する要素である。だが一方でパターンのことを、システムのある状態と別の状態を紐づけるような機能的な遷移と考えるのも役に立つ。「あらゆる部屋を２方向から照らす」（LIGHT ON TWO SIDES OF EVERY ROOM）パターンにより、暗い家が、あちこちから入る自然光であらゆる部屋が満たされた明るい家へと変化する。我々がこのパターンを適用するのは、少なくとも概念的には、すでにその建設場所が定まっていて、大まかに複数の部屋に仕切られた家である。
+
+%The house at any stage is a result of a history of pattern compositions.  We cannot throw together a house with a random sequence of patterns:  order matters.  All of these constraints, taken together with all of the patterns, define a partial ordering of pattern application.   The patterns are like elements of a language, and the constraints define the language.  Indeed, the total system of patterns is called a pattern language.  This notion of language is fundamental to patterns and their place in systems thinking.  This is why Alexander talks about “several acts of building,” each one of which is “done to repair and magnify the product of the previous acts.”   No pattern stands alone.  It is always part of a system, a Whole.  The Whole is a gestalt that arises from the combination of its pattern parts, yet it is greater than the sum of the parts.
+
+どんな段階にある家も、パターンが幾度も組み合わされた結果なのである。家に対して、ランダムな順序でパターンを適用することはできない。順序が重要なのだ。これらのあらゆる制約と、あらゆるパターンが一緒になって、パターンを適用する際の部分的な順序を定義しているのである。パターンは言語を構成する要素のようなものであり、また、制約が言語を定義するのだ。実際に、パターンの全体系は、\textsf{パターン・ランゲージ}と呼ばれている。言語に対するこうした考え方は、パターンと、パターンが体系的な思考において果たす役割にとって、本質的である。だからこそ、Alexanderは、「何回かの建築という行為」について語り、それぞれが「以前の行為によって生み出されたものを修理したり、補強したりするために行われる」としたのだ。孤立しているパターンはひとつもない。パターンは常に体系の一部、すなわち全体（Whole）の一部なのだ。全体とは、パターンの各部分を複数組み合わせることで生じるゲシュタルトであるが、それでいて、部分を足し合わせたよりも偉大なものとなる。
+
+%These attributes of the pattern process foresee many modern software practices.  However, though the software community embraced Alexander's patterns in the 1990s, few of these ideals show up in contemporary software pattern practice, but rather in other facets of modern software construction.  In particular, many of these values are prominent in Agile software development.
+
+パターン・プロセスの持つこれらの特質は、現代のソフトウェアのプラクティスの多くを予見するものだ。しかし、ソフトウェア・コミュニティは1990年代にAlexanderのパターンを取り入れたにもかかわらず、これらの理念は現代のソフトウェアにおけるパターン・プラクティスにおいて、ほとんど現れていない。パターンが見出されるのはむしろ、現代のソフトウェア構築における別の側面においてなのだ。特に顕著なのが、アジャイルソフトウェア開発である。
+
+%Patterns, in general, are neither about the built world in particular nor about software in particular.  Alexander's works describe a deeper and more universal philosophy of design that transcends disciplines.  This is to be expected from someone who played a prominent role in the Design Movement of the 1980s -- a dialog among the great design thinkers in numerous disciplines at the time.  But Alexander might object and claim that these insights go even deeper than just design:  that they touch on the very nature of form, of matter, and of being in their own right.  Patterns encode, at human scale, the processes and forms by which natural processes unfold in everyday systems.  These processes add texture and structure to undifferentiated matter.  For example, when an egg develops from a zygote to a blastosphere, cell reproduction is initially homogeneous.  Then cells begin to specialize, and an embryo forms with differentiated tissue.  Most natural processes fit this metaphor.  Alexander postulates that the emergence of a city plan or housing architecture follows the same deep processes.  The question is:  does this universality of design also apply to software?
+
+一般的に言って、パターンは建設の世界に限定されたものでもなければ、ソフトウェアに限定されたものでもない。Alexanderの仕事は、設計に関するより深く、より普遍的な哲学を記述しているのであり、単なる流派ではないのだ。同じことは、1980年代のデザイン・ムーブメントで主要な役割を果たした思想家についても言える。このムーブメントは、当時数多くあった流派の偉大な思想家の間で交わされた対話である。だがAlexanderであればこうした動きに反対し、これらの洞察が、設計よりもさらに深いところに行けると主張したかもしれない。つまり、その洞察は型というもののまさに本質に触れているのであり、物質の、さらには自立した存在の本質に触れているのだ。パターンとは、プロセスと型とをヒューマンスケールでエンコードしたものであり、それによって自然なプロセスが日常的な体系の中に展開されるのだ。これらのプロセスにより、まだ分化されていない物事に対して組織（texture）と構造（structure）が与えられる。たとえば、卵子が受精してから胞胚に成長するまでの間は、細胞の均一に複製される。それから、細胞は特化し始める。そして、胚は分化した組織で形作られるのだ。自然なプロセスのほとんどに、このメタファーを当てはめることができる。Alexanderは、都市計画や住宅建築が現れるのは、同様の深いプロセスに続いてのことだと仮定する。ならばこう問わねばならない。「設計に見られるこの普遍性は、ソフトウェアにも当てはまるのだろうか？」
+
+%The morning that I gave this keynote, I received a wonderful mail from Gordon Globius, who is Professor Emeritus of Psychiatry and Philosophy at UC-Irvine.  He is studying semiotics:  the role of signs in language.  He points out that Saussure, who founded semiology, tells us that:
+
+私がこの基調講演を行った日の朝、私はGordon Globiusから素晴らしいEメールを受け取った。彼はカリフォルニア大学アーバイン校の精神医学と哲学の名誉教授である。彼の研究対象は記号論だ。記号論とはつまり、言語における記号の役割である。彼は、記号学の創設者であるソシュールが次のように語っていると指摘する。
+
+\begin{quote}
+%Psychologically our thought -- apart from its expression in words -- is only a shapeless and indistinct mass. .  .. the somewhat mysterious fact ...   that language works out its units while taking shape between two shapeless masses ...   concepts are purely differential and defined not by their positive content but negatively by their relations with the other terms of the system.  Their most precise characteristic is in being what the others are not.  (Course in General Lingustics)   
+
+心理学的にみれば、我々の思考は、言語で表現した場合と異なり、すべてが混ざり合ったかたちのない塊なのだ。… いくぶん不可解な事実ではあるが ... 言語がある単位を構成する際には、ふたつの不定形な塊の間で形作られるのだ ... 概念というものは、純粋な差異でしかない。概念は、それが持つ肯定的な内容によって定義されるのではなく、体系内の他の用語との関係において、否定的に定義されるものなのだ。概念の持つ最も正確な特徴は、他のものがそうではないものの中にある。（一般言語学講義）
+\end{quote}
+%This sounds very similar to a concept from physics called spontaneous symmetry breaking,   which is the process by which matter is transformed in a way that actually decreases its level of entropy.  It increases structure.  This phenomenon is sometimes called self-organization.  Alexander's houses are, in some sense, self-organizing, if one includes the house dweller as an active part of the evolving system.  
+
+これは、「\textsf{対称性の自発的な破れ}」と呼ばれている物理学の概念と非常に類似しているように思われる。これは、物質が実際にエントロピーを減少させる方向に変化するプロセスである。このプロセスが構造を生み出すのだ。この現象は、自己組織化（self-organization）と呼ばれることもある。Alexanderの建てる家は、ある意味で自己組織化している。そこに住む人のことを進化する体系の中の活動的な一部と考えればそう言えるのだ。
+
+%Alexander starts by describing the importance of geometry in design,   and he articulates it using the formalism of symmetry:  
+
+Alexanderは、設計における幾何学の重要性を論じることから始め、対称性の形式主義を用いて、そのことを定式化する。
+
+\begin{quote}
+%... we shall see that almost everything about life in buildings can, in the end, be understood through symmetries,   and that indeed, there may be a way in which the concept of wholeness, and the field of centers, when understood dynamically, can be understood completely in terms of sequential unfolding of symmetries.  (Christopher Alexander, The Nature of Order, Book 1: The Phenomenon of Life, 2002, p. 242)  
+
+... 建築物の生涯についてのほぼすべてが、最終的には、対称性を通して理解されることがわかるだろう。そして、実は、全体性の概念や中心の領域をダイナミックにとらえれば、対称性が連続的に展開していくという観点から理解することができるのだということもわかるだろう。(Christopher Alexander, \textit{The Nature of Order, Book 1: The Phenomenon of Life}, 2002, p. 242)
+\end{quote}
+
+%However, he continues and cautions against a naive dependence on simple symmetry:  and:
+
+ただし、Alexanderは、単純な対称性に素朴に依存してしまうことに対して警告する。そしてこう言うのだ。
+
+\begin{quote}
+%Living things, though often symmetrical, rarely have perfect symmetry.  Indeed perfect symmetry is often a mark of death in things, rather than life.  I believe the lack of clarity in the subject has arisen because of a failure to distinguish overall symmetry from local symmetries.  (Ibid., p. 186)   
+
+生物は、対称形であることも多いが、完全な対称性を持つことはめったにない。実際に、完全な対称性は、生命よりも死の現れであることが多いのだ。この点について明確にできていないのは、全体的な対称性と局所的な対称性が区別できていないことが原因だと、私は考えている。（前掲書, p.186）
+\end{quote}
+%and:
+
+さらに、
+\begin{quote}
+%In general, a large symmetry of the simplified neoclassicist type rarely contributes to the life of a thing,   because in any complex whole in the world, there are nearly always complex, asymmetrical forces at work  --matters of location, and context, and function--  which require that symmetry be broken.   (Ibid., p. 187)   
+
+一般に、単純化された新古典主義派風の大がかりな対称性は、物事に宿る生命に貢献することがめったにない。世の中にある複雑な全体性においては、ほとんどいつも、複雑で非対称な力が働いているからだ。こうした力は場所やコンテキスト、機能の問題として現れ、対称性の破れを引き起こすのだ。（同上、187ページ）
+\end{quote}
+%Globius' focus on language offers the tantalizing perspective   that this same symmetry breaking that underlies architecture also applies to language and the nature of human reasoning.  It may define the way that brains (and minds) reason about form   -- the fundamental pillar of architecture.  It may also define that way that end users conceptualize software programs through an interactive interface.
+
+Globiusが言語に焦点を合わせたことで、実に興味深い視点が得られる。建築の根底にあるのと同じ対称性の破れが、言語と人間理性の本性にも当てはまるというのだ。このことで、脳（あるいは心）が型についてどう論理的に考えているかを定義できるかもしれない。そして、この型こそが、アーキテクチャにとって本質的な支えとなるものなのだ。またこのことで、エンドユーザーがインタラクティブなインターフェイスを通じてソフトウェア・プログラムを概念化する際の方法も定義できるかもしれない。
+
+%The rest of this paper is a reflection on fundamental aspects of those deeper principles, and on what they ultimately portend for software design today.
+
+本論文の残りでは、こうしたより深い原理が持つ基本的な側面と、そうした側面が今日のソフトウェア設計について、究極的には何を予告しているかについて深く考察する。
+
+%The Software Community Ideals 
+\section*{ソフトウェア・コミュニティの理念}
+%Patterns gained a foothold in the software world   when the nascent Hillside Group met in 1993 to explore the application of Alexander's ideas to software.  The next year they met again in California.  The group challenged itself to look forward a decade and to describe how patterns had changed the world.  The following hopes and dreams were in their thoughts   (James O. Coplien, personal notes from the meeting):  
+
+パターンがソフトウェア界での足場を得たのは、初期のヒルサイド・グループが1993年に会合し、Alexanderの考え方をソフトウェアに適用できないかを調査した時であった。その翌年、彼らはカリフォルニアで再会した。ヒルサイド・グループは10年先を見越して、そのころにはパターンがどのように世界を変えているかを論じようと挑戦したのだ。次に述べる希望と夢は、彼らが考えていたことだ（James O. Coplien、会議で書いた個人的なメモより）。
+
+\begin{itemize}
+%\item Patterns have brought to life that software is art, bifurcating the industry into pseudo-scientists and artisans   
+\item パターンによって、ソフトウェアが芸術であるという考え方が生き返り、業界がエセ科学者と職人に二分された。
+%\item They have brought a new programming language, and have enriched the vocabulary used by others.  
+\item パターンによって、新しいプログラミング言語がもたらされ、他の言語によって使用される語彙が豊かになった。
+%\item Patterns' major use is in neural networks, where they are used to describe high-level firing patterns and distribution of computation in emerging highly distributed systems.  
+\item パターンの主要な用途はニューラル・ネットワークの記述となった。そこでは、高度な発火（firing）パターンや、台頭した高度な分散システムを記述するのにパターンが用いられている。
+%\item Patterns have caused three major universities to shift software from their engineering and science programs, into liberal arts, with concomitant changes in curriculum (art history is now a prerequisite for a comp sci degree)   
+\item パターンの影響により、３大大学でカリキュラムの変更が行われ、ソフトウェアが、工学および科学から教養学科に移される（今や計算機科学の学位を取得する上で芸術史が必須である）。
+\end{itemize}
+%The pattern community was inspired in large part of a vision of pattern languages:  collection of patterns that formed a system.  Earlier discussions about patterns at OOPSLA and at an IBM workshop in Thornwood, New York had revolved in part around the early thesis work of Eric Gamma,   who was documented micro-architectures in descriptions that would come to be called patterns.  The core of the early pattern community, which called itself the Hillside Group, distinguished “generative patterns” from so-called “Gamma patterns” that lacked this linguistic generativity.
+
+パターン・コミュニティは、パターン・ランゲージの展望の大部分からインスピレーションを受けた。パターン・ランゲージとはすなわち、体系を形成するパターンのあつまりである。パターンに関するそれ以前の議論は、OOPSLAとニューヨーク州ThornwoodのIBMワークショップで行われていた。そしてその一部は、Eric Gammaの初期の主張を構成している。そのEric Gammaが文書化したマイクロアーキテクチャが、後にパターンと呼ばれるようになっていく。ヒルサイド・グループと名乗っていた初期のパターン・コミュニティの核心は、「ジェネレーティブ・パターン」を、言語的な創発性（generativity）を欠いた、言わば「Gammaパターン」から区別することにあったのだ。
+
+%The pattern community knew that it was breaking new ground and decided to take a conservative tact.  This conservatism was reflected in several unwritten mores of the culture:  we would keep things simple and direct instead of “going meta;”   we would be inclusive to ensure that we explored the concept in a way that built on broad contributions   rather than presuming that any single group of people had a monopoly on what constituted a pattern.   However, we would ensure that the members of the original inner core were materially engaged in each pattern that went forward,   using a process called shepherding, which has expanded into many other conferences' reviewing culture.  
+
+パターン・コミュニティには、Gammaパターンが新しい基盤を崩壊させて、保守的にふるまうことにしたのだとわかっていた。こうした保守主義は、Gammaパターンが生み出した文化にある不文律にも反映されていた。我々であれば、物事をシンプルで直接的に保つようにしておき、「メタに向かう（going meta）」ようなことはなかっただろう。また、我々であれば、幅広い貢献を基に構築する方向でこの概念について調べ、そこから道を外れることがないようにしただろう。パターンの構成要素を、特定のグループが独占することを想定することはなかったはずだ。ただし、それぞれのパターンが先へ進む際には、当初の中核メンバが実際に関わるようにしただろう。これはシェパーディングと呼ばれるプロセスを用いて行われる。このシェパーディングは、今や、その他のカンファレンスの多くで行われる査読の文化に発展した。
+
+%The community sought its footing for a couple of years,   and then the number of attendees, and conferences, and patterns, grew.  People started experimenting, as engineers are wont to do, and this experimentation led to small steps away from the core foundations.   Many of these foundations were lost over time.  If we consider Alexander's notion that patterns should focus on adaptation between the product and the end user, it is difficult to find it as a foundation even of the early mainstream patterns.  The noteworthy exceptions were the patterns from an offshoot community in HCI,   which held dearly to this principle,   but that effort was more of an HCI-focused effort than a pattern-focused effort.  Alexander's notion that patterns should be incremental and iterative was also lost by the mainstream pattern community,   largely because the grander notion of pattern languages never took root.  In terms of relying on feeling more than on intellect, this never took root in the patterns themselves,   though the pattern community clearly emphasized its identity   as a community of people in relationship over any technical consideration.  In short, the pattern community was left with little more than a convenient public outlet for possibly good ideas.  But they never came close to having the morally grounded imperative of any community, in accordance with the Alexandrian vision.  (  James Coplien,   The Culture of Patterns,   \url{http://docs.google.com/a/gertrudandcope.com/viewer?a=v&pid=sites&srcid=Z2VydHJ1ZGFuZGNvcGUuY29tfGluZ m98Z3g6ZDg1YWFjMThjZDBkZjQ2})   
+
+パターン・コミュニティは、２年の間その足場を捜し、その後、コミュニティへの参加者やカンファレンス、そして、パターンの数が増えていった。エンジニアがそうするように、多くの人が実験を始めた。そして、この実験のせいで、中核的な基礎から少しずつ離れていってしまったのだ。そして時間とともに、こうした基礎の多くが失われてしまった。パターンはプロダクトをエンドユーザーに適合させることに集中するべきだというAlexanderの考え方に付いて言えば、初期に主流となったパターンですらその基盤にしていないようだ。注目に値する例外は、HCI（Human Computer Interaction）の分派コミュニティが生み出したパターンである。このコミュニティは、本来の原則を強く保っていた。ただ、その努力が焦点を合わせていたのは、パターンよりはむしろ、HCIであった。パターンは、インクリメンタルでイテレーティブでなければならないというというAlexanderの考え方も、当時主流であったパターン・コミュニティにより失われてしまった。パターン・ランゲージというより偉大な概念が根づくことが決してなかったことが主な原因だ。知性よりも感性に頼るという点については、パターン自体にも決して根づかなかった。パターン・コミュニティは自分たちが、技術について考えるよりも、人間同士の関係性について考えることを重視するコミュニティであることを強調していたのに、である。要するに、パターン・コミュニティに残されていたのは、よさそうに見える考えを発表するための便利な公共の場でしかなく、Alexander流の考え方に従った、コミュニティ向けの倫理的な規範を持つにはまったく至らなかったのだ。（ James Coplien, The Culture of Patterns, \url{http://docs.google.com/a/gertrudandcope.com/viewer?a=v&pid=sites&srcid=Z2VydHJ1ZGFuZGNvcGUuY29tfGluZ m98Z3g6ZDg1YWFjMThjZDBkZjQ2}）
+
+%One challenge of patterns is that they were too fluffy.  It was hard for consultants to sell patterns.  Patterns sold books, not consulting -- and not even that many books.  Academics quickly discounted them as unsuitable for research publication, since they were not original.  Since the fabric of the pattern community largely comprised consultants and academics, patterns lost mindshare among key spokespersons in the industry.   Patterns coasted forward as a grass-roots movement   that came to realize only a glimmer of Alexander's ideals.   
+
+パターンにあったひとつの課題は、パターンがあまりにあいまいでふわふわしていたということである。コンサルタントがパターンを売るのは難しかった。パターンによって売れたのは、コンサルティングではなく書籍だったし、それもそう多くはなかった。研究者たちはパターンのことをすぐに、研究出版には向かないと値踏みした。パターンが独創的でなかったためだ。パターン・コミュニティの組織が主にコンサルタントと研究者で構成されていたので、パターンは業界に対して強い影響力を持つ人々の間で共通見解を作れなかった。パターンは、草の根的な運動として惰性で発展し、結局、Alexanderの理念はほとんど実現できなくなってしまったのだ。
+
+%Reformulating the Ideals 
+\section*{理念の再編}
+%Few, if any, of Alexander's original key ideas survived through the to the software pattern community.  Among the noteworthy exceptions are the sense of community behind the adoption of patterns, and the strong sense of a human element among the participants.  But this human element seldom shines through in the pattern literature per se.
+
+Alexanderが元々持っていた主要な考え方は、ソフトウェアパターンコミュニティに伝わらなかったし、伝わったとしてもほんのわずかだった。ただ、注目に値する例外もいくつかあった。それが、パターンを採用することの背後にある共同体の感覚と、そこに参加する人々の中にある人間的要素の感覚である。しかし、この人間的要素がパターンに関する書籍から読み取れることは、当然ながらほとんどない。
+
+%These pattern values nonetheless found a new outlet in Agile software development.  Agile found stronger business footings than patterns ever did, playing to the hopes of management for business flexibility and to the hopes of developers for increased autonomy.  It is not only true that the key initial proponents of Agile had been key players in the pattern community, but that the key elements of the pattern value system became explicit in Agile as well.  We can return to the key ideas of focusing on users, wholes, and feeling.
+
+それでも、こうしたパターンの価値は、アジャイルソフトウェア開発の中に新しい居場所を見出した。アジャイルは、パターンがこれまでに構築することができた中で最も強いビジネスの基盤となった。このことは、ビジネスの柔軟性を望む経営陣の希望と、さらなる自律を望む開発者の希望に訴えかけることで実現したのだ。アジャイルを最初に支持した主要な人々はパターン・コミュニティにおける主要な活動家であったが、それだけではない。パターンの持つ価値体系の主要な要素がアジャイルにおいて明示されたことも、また事実なのである。我々は、ユーザー、全体（whole）および感性に集中するという主要な考え方に戻ることができるのだ。
+
+\begin{center}
+\begin{tabularx}{140mm}{| X | X |} 
+\hline
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} ALEXANDER} & 
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} SOFTWARE} & 
+\hline
+%Adaptation between software and its users 
+ソフトウェアとユーザーの適合&
+%People (users): Mental models 
+人間（ユーザー）：メンタルモデル &
+\hline
+%Slowly generate larger and more complex wholes 
+より大規模で複雑な全体をゆっくりと生成する &
+%Form: Object-orientation and domain analysis (wholes) 
+型：オブジェクト指向とドメイン分析（全体） &
+\hline
+%Rely on feeling more than intellect 
+知性よりも感性に頼る &
+%Function: The form of function (feeling) 
+機能：機能の型（感性） &
+\hline
+\end{tabularx}
+\end{center}\\
+
+%People and Mental Models 
+\subsection*{人間とメンタルモデル}
+%The adaptation between a system and its users is mostly about the users.  In architecture this came to be called user-centered design.  Software had long had advocates for human-centered software.  Much of this advocacy was rooted in the object-oriented programming discipline.  A bit of history is instructive in understanding how this came to be.
+
+システムとその\textsf{ユーザー}との間で生じる適合は、大部分がユーザー側の問題だ。建築において、これはユーザー中心設計と呼ばれているようになった。ソフトウェアは、長いこと人間中心のソフトウェアということを主張してきた。この主張のほとんどは、オブジェクト指向プログラミング学派に根ざしていた。この経緯を理解する上で、歴史について多少話しておくのは有益である。
+
+%While object orientation had its origins in Simula 67, the term actually was coined by Alan Kay.  Alan describes object orientation like this:
+
+オブジェクト指向は「Simula 67」にその起源を持つが、実際の用語はAlan Kayによって生み出された。Alanはオブジェクト指向について、こう説明している。
+
+\begin{quote}
+%In computer terms, Smalltalk is a recursion on the notion of computer itself.  Instead of dividing “computer stuff” into things each less strong than the whole  --  like data structures, procedures, and functions which are the usual paraphernalia of programming languages  --  each Smalltalk object is a recursion on the entire possibilities of the computer.  Thus its semantics are a bit like having thousands and thousands of computer all hooked together by a very fast network.  (Alan Kay, The Computer revolution hasn't happened yet, \url{http://www.thedavincipursuit.net/page24/page25/files/kay.pdf})   
+
+コンピュータ用語において、「Smalltalk」とはコンピュータそのものについての概念の再帰である。「コンピュータ関係のもの」を、全体よりも非力なものに分解してしまうような考え方がある。分解することで現れるのは、データ構造、プロシージャあるいは関数といった、プログラミング言語であれば普通に備えているようなものだ。しかし、Smalltalkオブジェクトはひとつひとつが、コンピュータの持つあらゆる可能性の再帰なのである。したがって、そのセマンティックスは、何千ものコンピュータを非常に高速なネットワークで結びつけたようなものになる。(Alan Kay, \textit{The Computer revolution hasn't happened yet}, \url{http://www.thedavincipursuit.net/page24/page25/files/kay.pdf})
+\end{quote}
+
+%Form:  Objects and Wholes  
+\subsection*{型：オブジェクトと全体}
+%The software community has long appreciated the importance of form.  Almost ever since Fred Brooks at IBM stated using architecture as a metaphor for programming-in-the-large in software, the phrase “software architecture” has been an industry staple.  We are concerned with the differentiation of the “whole” into parts that can be built, independently and simply, and then composed into a system.
+
+ソフトウェア・コミュニティは、型の持つ重要性を長らく評価してきた。IBMのFred Brooksが、アーキテクチャという言葉をソフトウェアにおける大規模なプログラミング（programming-in-the-large）のメタファーとして使うと述べて以来ほぼずっと、「ソフトウェアアーキテクチャ」というフレーズは業界の中心となってきた。我々が関心を持っているのは、「\textsf{全体}」が、独立してシンプルに構築できる部分に細かく分けられ、その後に組み立てられてシステムになるということだ。
+
+%The object paradigm has arisen as a popular style to describe system parts.  As we'll explore in detail later, “object-oriented” is really a misnomer in light of the fact that most programmers actually build classes rather than objects.
+
+オブジェクトパラダイムは、システムの各部分を説明する上での一般的なスタイルとして生まれた。後に詳細に見ていくが、たいていのプログラマが実際に構築しているのはクラスであってオブジェクトではないという事実を考慮すれば、「オブジェクト指向」という名称は、実は誤っている。
+
+%One would think that because of this focus on form in objects, and because of its manifestation in the user interfaces of interactive programs, that this value would have a place of honor in Agile thinking.  For historic reasons, it does not.  Agile tended to take an anti-knowledge, pro-skill outlook on development.  There is a kind of passive-aggressive anti-intellectualism in Agile that works against the kind of expertise that offers first-hand insight into form.  Agile instead takes the position that form emerges through experimentation over time, using feedback to re-shape the system.
+
+オブジェクト指向がこのようにオブジェクトの型（form）に焦点を合わせており、対話型プログラムのユーザーインターフェイスで具現化されるからこそ、こうした価値はアジャイル的思考でも重宝されるのだ、と思う人もいるかもしれない。しかし、歴史的に見れば、そうではない。アジャイルは、開発に関する反知性的な職人芸に見えがちだった。アジャイルには、（意図したものであっても、そうでなくても）ある種の反知性主義が存在し、それが、型に対して経験に基づく洞察を提供するような専門知識に反発したのだ。その代わりにアジャイルが取った立場は、型というものが、時間をかけた実験を通して、システムを再構成するためのフィードバックを使いながら生じてくるというものだ。
+
+%This, however, would be a temporary situation.  While some of the foundational Agile thinkers still cling to the notion of YAGNI (“you ain't gonna need it”) for system form, the deeper thinkers have returned to a tradition of up-front thinking.   This perspective has returned in a healthy way that eschews much of the heavyweight documentation and premature code mass that usually went hand-in-hand with the previous generation's software architecture.  But the essentials of system form remain.  Bob Martin tells us, 
+
+だが、このような状況は一時的なものにすぎないだろう。たしかに、アジャイルの基礎を作った思想家の中には、システムの型に対して、いまだにYAGNI（「必要にならないかもしれない（you ain't gonna need it）」）の考え方に執着している人もいる。だが、もっと深く考えている人々は、アップフロントな思考という伝統に立ち返っている。この考え方は健全なかたちで戻ってきており、旧世代のソフトウェアアーキテクチャにはたいていついて回っていたような重々しいドキュメントと未成熟なコードの塊は好まない。しかし、システムの型の本質は残っている。Bob Martinは次のように語る。
+
+\begin{quote}
+%One of the more insidious and persistent myths of agile development is that up-front architecture and design are bad;  that you should never spend time up front making architectural decisions.  That instead you should evolve your architecture and design from nothing, one test-case at a time.
+
+「アジャイル開発において、長く続いている狡猾な神話の一つは、アップフロントなアーキテクチャと設計が害悪で、アーキテクチャ上の意思決定をアップフロントに行うために決して時間を費やしてはならない、というものだ。こうした神話によれば、アップフロントに行うのではなく、アーキテクチャと設計をゼロから、一度に一テストケースずつ発展させなければならないのだという。
+
+%Pardon me, but that's Horse Shit.  (Robert C. Martin, World Expert on The Scatology of Agile Architecture, \url{http://blog.objectmentor.com/articles/2009/04/25/the-scatology-of-agile-architecture})  
+
+申し訳ないが、それはナンセンスだ。(Robert C. Martin, World Expert on The Scatology of Agile Architecture, \url{http://blog.objectmentor.com/articles/2009/04/25/the-scatology-of-agile-architecture}) 
+\end{quote}
+
+%Function:  Does it have form? 
+\subsection*{機能：機能には型があるか？}
+%Hofstader, in his book Le Ton Beau de Mareau, describes the difficulty of translating between languages.  Programmers are faced with this very problem when translating between an internal human language and the many languages of computing.  If we are to reflect human mental models in a programming language, what is a good translation?  Hofstader concludes that a good poem is one that elicits the same feeling in the reader as for the original feelings of the poet.  Function isn't just about correctness, but exhibits itself deeply in a sense of satisfaction, joy, or at least catharsis in the users of our software.
+
+Hofstaderは、著作『\textit{Le Ton Beau de Marot}』において、言語間で翻訳することの難しさを論じている。プログラマは、自らの内にある人間の言語と、処理を行うための多くの言語との間で翻訳を行う時に、まさしくこの問題に直面する。人間のメンタルモデルをプログラミング言語の中に映し取ろうとする場合、よい翻訳とはどのようなものだろうか？　Hofstader氏は、よい詩とは、詩人が元々感じたのと同じ\textsf{感覚}を読者に引き起こすものであると結論づけている。機能は、正しければよいというものではない。我々のソフトウェアを使うユーザーの心の奥深くで、満足感や喜び、あるいは、カタルシスというかたちで自らを表現しなければならないのだ。
+
+%The Big Picture
+\subsection*{ 全体像}
+%We find these values crystallized in the Agile Manifesto.  The Manifesto expresses adaptation of a system through its reflections on “Individuals and interactions” as well as “Responding to change.”   That's the focus on users.  The Manifesto reflects on the place of wholes in its reflections on documentation:  that the whole is better than the documentation.   A good architecture supports the discovery process and the ability of the programmer to understand the code, which is a key foundation of working software.  C. A. R. Hoare emphasizes the importance of code comprehension:
+
+これらの価値は、アジャイル宣言において結晶化していることがわかる。アジャイル宣言は、「個人と対話」や「変化に対応すること」について深く考えることを通じてシステムを順応させることを表現している。これはつまり、\textsf{ユーザー}に注目するということだ。
+
+アジャイル宣言のドキュメントに対する考え方を見ると、全体性をどう位置づけているかがわかる。すなわち、全体性はドキュメントより優れているのだ。優れたアーキテクチャは発見のプロセスをサポートし、プログラマがコードを理解しやすくする。そしてこれらは、動作するソフトウェアにとって重要な基盤なのだ。C. A. R. Hoareは、コードを理解することの重要性を強調している。
+
+\begin{quote}
+%There are two ways of constructing software.  One is to make it so simple that there obviously are no deficiencies.  The other is to make it so complicated that there are no obvious deficiencies...  The price of reliability is the pursuit of the utmost simplicity.  
+
+ソフトウェアを構築する方法はふたつある。ひとつは、きわめてシンプルにして、欠陥のないことが明白になるようにすること。もうひとつは、きわめて入り組んだものにして、明らかな欠陥がないようにすることである...信頼できるソフトウェアを作るためには、どこまでもシンプルにすることを追求しなければならない。
+\end{quote}
+
+\begin{center}
+\begin{tabularx}{140mm}{| X | X | X |} 
+\hline
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} ALEXANDER} & 
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} SOFTWARE} & 
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} AGILE} \\
+\hline
+%Adaptation between software and its users 
+ソフトウェアとユーザーの適合&
+%People (users): Mental models 
+人間（ユーザー）：メンタルモデル &
+%Individuals and interactions over processes and tools 
+プロセスやツールよりも、個人と対話を \\ 
+\hline
+%Slowly generate larger and more complex wholes 
+より大規模で複雑な全体をゆっくりと生成する &
+%Form: Object-orientation and domain analysis (wholes) 
+型：オブジェクト指向とドメイン分析（全体） &
+%Working software over comprehensive documentation 
+包括的なドキュメントよりも動作するソフトウェアを \\ 
+\hline
+%Rely on feeling more than intellect 
+知性よりも感性に頼る &
+%Function: The form of function (feeling) 
+機能：機能の型（感性） &
+%Responding to change over following a plan. 
+計画に従うよりも変化への対応を  \\ 
+\hline
+\end{tabularx}
+\end{center}\\
+
+%The Manifesto also raises the question of human feeling:   We want end users to be content and perhaps even happy.   They are content if their expectations are met.  As we work to align our expectations of a product with theirs, both we and the system go through many changes.  It is crucial to respond to change.  Discomfort comes from forcing someone into an overly inflexible plan.
+
+アジャイル宣言は、人間の\textsf{感性}に関する問いも引き起こしている。すなわち我々は、エンドユーザーに満足してほしいのであり、おそらく幸せになってほしいとさえ思っている。期待が満たされれば、ユーザーは満足する。製品に対する自分たちの期待を、ユーザーの期待と一致させるために作業をする時、我々とシステムは多くの変化を経験する。変化に対応することはきわめて重要なのだ。あまりに柔軟性のない計画を誰かに強いると、不満が溜まる。
+
+%These are well-known provisions of the Agile Manifesto:
+
+次に挙げるのは、アジャイル宣言の有名な条項である。
+
+\begin{quote}
+%We are uncovering better ways of developing software by doing it and helping others do it.  Through this work we have come to value:
+
+我々は、ソフトウェア開発を実践し、また他の人が実践するのを手助けすることを通じて、ソフトウェア開発を行う上でのより優れた方法を見出そうとしている。この作業を通して、我々は次に挙げるものに重きを置くようになってきた：
+
+\begin{itemize}
+%\item Individuals and interactions over processes and tools  
+\item プロセスやツールよりも、個人と対話を
+%\item Working software over comprehensive documentation  
+\item 包括的なドキュメントよりも、動作するソフトウェアを
+%\item Customer collaboration over contract negotiation  
+\item 契約上の交渉よりも、顧客との協業を
+%\item Responding to change over following a plan   
+\item 計画への追従よりも、変化への対応を
+\end{itemize}
+
+%That is, while there is value in the items on the right, we value the items on the left more.  
+
+つまり、左側の項目の価値を認めた上で、我々は右側の項目の方により重きを置くのである。
+
+\begin{center}
+\begin{tabular}{l l l}
+Kent Beck                    & James Grenning & Robert Cecil Martin \\
+Mike Beedle                & Jim Highsmith     & Steve Mellor  \\
+Arie van Bennekun    & Andrew Hunt       & Ken Schwaber \\
+Alistair Cockburn        & Ron Jeffries         & Jeff Sutherland \\
+Ward Cunningham     & Jon Kern              & Dave Thomas  \\
+Martin Fowler               & Brian Marick \\
+\end{tabular} \\
+
+\copyright 2001, the above authors \\
+this declaration may be freely copied in any form, \\
+but only in its entirety through this notice.   
+\end{center}
+\end{quote}
+
+%Most people interpret the Manifesto in terms of its provision for development team members.  They are the individuals who interact.  It is their job to build working software.  It is them who shouldn't over-plan.  They should be flexible with the software.  But the team is a small part of the overall puzzle of delivering software:  in the end, it is the software, and not the team, which stands at the center.  We want the software to interact with end users as individuals.  We want the software to be in accordance with the end user mental model instead of some instruction manual.  We want the customer to feel engaged, as Brenda Laurel describes attendance at a theatre production as a metaphor for software enactment   (Brenda Laurel, Computers as Theatre).  That means that software is a service -- not a product.  And we want the software to follow end-user whims both in the short term (to be able to support the user's newfound need by anticipating scenarios well) and in the long term (by offering the flexibility for new features).
+
+ほとんどの人は、アジャイル宣言が開発チーム・メンバのための規約であると解釈している。開発チームのメンバは、対話し合う個人である。動くソフトウェアを構築することが彼らの仕事だ。過度な計画を立ててはならないし、ソフトウェアに関して柔軟でなければならない。しかし、ソフトウェアをデリバリーするというパズル全体からすれば、チームはごく一部にすぎない。結局のところ、中心に位置づけられるのはソフトウェアであって、チームではないのだ。我々がソフトウェアに望むのは、エンドユーザー個人とやりとりすることである。我々がソフトウェアに望むのは、取扱説明書のようなものに従うことではなく、エンドユーザーのメンタルモデルに従うことなのだ。 Brenda Laurelが、ソフトウェアの動作を表現するメタファーとして観劇を用いたように、我々は顧客に引き込まれていると感じてほしいのだ(Brenda Laurel, Computers as Theatre)。つまり、ソフトウェアはサービスであって、製品ではない。そして、ソフトウェアには、短期的にも（シナリオをうまく予想することで、ユーザーの新たなニーズをサポートできる）、長期的にも（新しいフィーチャを作れるように柔軟性を与えることによる）、エンドユーザーの気まぐれに追従することを望む。
+
+%Abandonment of People and Human Mental Models 
+\section*{人間と人間のメンタルモデルの放棄}
+%Almost all programming has its roots in mental models.  While object-orientation trumpets these foundations, FORTRAN was there first with its claim to representing the mathematical FORmulae in the minds of its mathematically-minded programmers, and COBOL was the first to dare speak of comprehensibility of code by managers and business people.  Modern programming seems to have lost this focus, favoring an engineering view (think girders and beams) over the human view (think external elevation).  The industry has even dared justify this perspective with the moniker “Software Engineering,”   as though it had roots in a real science instead of something called Computer Science.  
+
+ほとんどすべてのプログラミングの根源は、メンタルモデルにある。オブジェクト指向がこうした基礎について声高らかに謳っている一方で、FORTRANは数式（ the mathematical FORmul）を表現すると主張して、その数学に関心のあるプログラマの心をつかんだ。そして、COBOLが初めて、管理者とビジネス側の人々両方にとって理解できるコードという考え方について語った。だが、現代のプログラミングはこの焦点がぶれてしまっているようだ。そして、エンジニア寄りの見方を（桁と有効範囲について考える）を人間的な見方（外面的な進化を考える）よりも好むようになった。業界は、「ソフトウェア工学（Software Engineering）」という名称で、こうした考え方を正当化するまでになった。この呼び方を見ると、「コンピュータサイエンス」と呼ばれた何かとは違う本物の科学にルーツを持つかのようだ。
+
+%Object orientation came to value this engineering perspective more and more in the 1980s with its focus on coupling and cohesion, the depth of inheritance hierarchies, and unit testing.  More and more programming concerns moved further and further from the end user.  Many software engineering measures and concerns became rooted in pseudo-science rather than the mental models either of the programmer or the end user.   
+
+オブジェクト指向は、1980年代になって、ますますエンジニア的な考え方に価値を置くようになり、その関心は結合や凝集、継承の階層の深さとユニットテストに向けられた。プログラミングの関心事はますます、エンドユーザーから離れていってしまった。多くのソフトウェア工学における基準や関心事は、プログラマやエンドユーザーのメンタルモデルではなく、エセ科学に基づくようになってしまったのだ。
+
+%The pattern community stood staunch in its insistence on visual representations of design.  Alexander had always insisted on these   because of his focus on geometry, and the place of geometry in human comprehension of comfort, habitability, convenience, and of most aspects of design that conveyed value.  However, the software community would move more and more to engineering representations of form,   instead of forms rooted in human mental models.  Notations such as UML became gratuitous adornments to the mental model.  There was a broad interest in formalizing patterns.
+
+パターン・コミュニティは、設計を視覚的に表現することを頑強なまでに強調していた。Alexanderは常にこのことを主張したのだが、それは、彼が焦点を当てていたのが幾何学であり、さらには、人間が快適さや住みやすさ、そして便利さについて理解する上で幾何学が占める位置であり、設計において価値をもたらすほぼすべての側面を理解するために幾何学が占める位置でもあったからだ。しかしながら、ソフトウェア・コミュニティはますます、型を工学的に表現する方向へと動いていき、人間のメンタルモデルに根ざした型からは遠ざかってしまった。UMLのような表記法は、メンタルモデルにつけられる余計な装飾になった。パターンを形式化することに、幅広い関心が寄せられたのだ。
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{viewsOfAHouse.eps}
+\end{reviewimage}
+\begin{center}
+%The customer view and engineering view of a house 
+家についての顧客の視点とエンジニアの視点
+\end{center}
+
+%Engineering diagrams have a use, but Christopher Alexander has warned against them as inflexible master plans that do not reflect the sensibilities of the end user.  I like to show people the interface of my iPhone while on a trip to another city.  I captured it from my wife's phone and I reproduce it below.  Can you tell what city I was in when I captured the screen?
+
+上の図にあるエンジニア用の図にも使い道はある。しかし、Christopher Alexanderはそうした図に対して警告を発した。エンドユーザーの感性を反映していない、柔軟性のないマスタープランであるというのだ。この話題に触れる時、とある都市に旅行した時の、iPhoneのインターフェイスを人に見せるのが私は好きだ。妻の電話を使って撮った写真をお見せしよう。私がこの画面を撮った時、私がどの都市にいたか、読者はわかるだろうか？
+
+\begin{reviewimage}
+\includegraphics[width=50mm]{iPhone.eps}
+\end{reviewimage}
+\begin{center}
+%What happens when you count on engineering approaches for testing 
+テストの際に工学的アプローチに頼った場合に起きること
+\end{center}
+
+%If you're observant you notice the 20:57 time at the top, and note that the only clock exhibiting that time corresponds to Boston.  So that's a good guess, and it turns out to be right.  All of the digital clocks are wrong.  The program is probably right -- right in the sense that the green bar comes up for all the tests.  But as Jef Raskin advises, the interface is the program.  The code is just the un-lean stuff that has to go along with the interface to make it work.  It's the interface that has to work.
+
+注意深く見れば、上の方にある20:57という時間に気がつき、その時間を示している時計がボストンのアナログ時計だけであることに気づくだろう。その推測は優れており、実際に正解でもある。デジタルの時計は、すべて間違っているのだ。テストの結果グリーンのバーが表示されるという意味では、プログラムは多分正しいのだろう。しかし、 Jef Raskinが忠告した通り、インターフェイスこそがプログラムなのだ。コードは、インターフェイスを機能させるために必要な、無駄の多い素材にすぎない。機能しなければならないのは、インターフェイスなのだ。
+
+%Interfaces are what we design, develop, and debug -- or we should.  Too often, the interface is an afterthought.  We build the system bottom-up, starting with the database and adding the application logic, and then hiring out the design of the interface later.  And we test the interface last   --   at which point changing it would require a major change to most of the software architecture.  
+
+我々が設計し、開発し、デバッグするもの（あるいは、しなければならないもの）は、インターフェイスなのだ。だがあまりに多くの場合において、インターフェイスについては、後から考えられる。我々は、システムをボトムアップに構築する。データベースから始めて、アプリケーションロジックをつけ加え、後になって、インターフェイスの設計を行う人を雇うのだ。そして、最後にインターフェイスをテストする。この頃になると、ソフトウェアを変更するには、ソフトウェアアーキテクチャのほとんどを変更する必要が生じている。
+
+%But, today, we've lost the link between the human mental model and the program.  The problem shows up in many ways.  We work on classes instead of objects.  Classes are structure rather than form, and they have only a vague correspondence to the end-user mental model.   They usually end following the programmer mental model, and it's usually the end user who suffers.  I'm sure that the person who wrote the code for inserting pictures in word processor paragraphs ran the tests and the green bar came up just fine every time.  That I can't get the machine's mental model to conform to my notion of where the picture belongs somehow eluded the tests.
+
+だが今日では、人間のメンタルモデルとプログラムとの間のつながりが失われてしまっている。この問題はさまざまなかたちで現れる。我々が取り組んでいるのは、オブジェクトではなくクラスだ。クラスは型（form）というよりはむしろ構造（structure）であり、エンドユーザーのメンタルモデルとは、漠然としか一致していない。また、通常はプログラマのメンタルモデルにも従わなくなっている。そうしたことの被害を被るのは、通常はエンドユーザーなのだ。ワープロでパラグラフに絵を挿入することを想像してほしい。コードを書いた人は、テストを実行しただろうし、そのたびにバーは緑色に変わっていたのだろうとも思う。それでも、絵の位置がどこなのかということに関する自分自身のイメージと機械のメンタルモデルを適合させることが私にはできないのだが、どういうわけかそれはテストされなかったようなのだ。
+
+%Back to Form 
+\section*{型に立ち戻る}
+%Early object-oriented programmers understood the link between the interface and the program.  Brenda Laurel talks at length about the relationship between the worlds of the programmer and the end user.  Smalltalk programmers, particularly those using VisualWorks, lived in an intensively visual world.  The worlds of the programmer and end user are inextricably linked in working software.  More so, it is the end user model that usually must prevail,   though more generally good development strives to align the expectations of the end user and the team.  This is a key tenet of Lean:  to align expectations by bringing the entire team together to reason both about the process and the form.
+
+初期のオブジェクト指向プログラマは、インターフェイスとプログラムの間に存在するつながりを理解していた。Brenda Laurelは、プログラマとエンドユーザーの世界観の関係について詳細に語っている。Smalltalkプログラマ、特にVisualWorksを使っているプログラマは、徹底的に視覚的な世界に住んでいた。プログラマとエンドユーザーの世界観は、動作するソフトウェアの中で、分かち難く結びつけられているのだ。通常、優先されるべきは、エンドユーザーのモデルである。ただ、たいていの場合、優れた開発では、エンドユーザーとチームの期待を同調させようとする努力がなされるものなのだ。リーンの主要な信条はこうだ。すなわち、チーム全体に対し、プロセスと型の両方について論理的に考えるように仕向けることにより、期待を同調させるのである。
+
+%Geometry and Architecture 
+\subsection*{幾何学と建築}
+%The architecture of the built world is about form.  We can interpret this perspective in two ways.  In one sense, form is the essence of the building structure:  it is what is left if you take all the specific structure away.  Viewed another way, architects focus on the form between the built structures.  It is an architect's job to carve out space.  Walls, floors and roofs just delineate the space:  the space itself is the important result.
+
+建築の世界において、アーキテクチャとは型に関するものである。この考え方は、ふたつのやり方で解釈できる。ある意味、型は建築構造のエッセンスである。すなわち、型とは、特定の構造をすべて取り去った後に残されるものなのだ。別の見方をすると、建築家は構築された構造の間にある型に焦点を合わせる。建築家の仕事は空間を切り取ることだ。壁、床、そして屋根は、まさに空間に輪郭を与えるものなのだ。つまり、空間自体が、重要な結果なのである。
+
+%Alexander was deeply inspired by the Tao Te Ching --   a classic work of Chinese philosophical literature.  We find these principles of form even in those roots.  For example,   
+
+Alexanderは道徳経に深く影響されている。道徳経とは、中国の哲学的文学の古典である。Alexanderのこうした型の原則は、ここにもルーツがある。たとえば、こんな具合だ。
+
+\begin{quote}
+%Thirty spokes meet at a nave;  
+
+30本のスポークが、中心に集まっている。
+
+%Because of the hole we may use the wheel.  
+
+中心に穴があいているから、我々は車輪を使える。
+
+%Clay is moulded into a vessel;  
+
+粘土をこねて器を作る。
+
+%Because of the hollow we may use the cup.  
+
+くぼみがあるから、我々はカップを使える。
+
+%Walls are built around a hearth;  
+
+炉を囲んで壁が作られる。
+
+%Because of the doors we may use the house.  
+
+ドアがあるから、我々は家を使える。
+
+%Thus tools come from what exists, 
+
+このように、道具は存在するものに由来するが、
+
+%But use from what does not.
+
+存在しないものがあるおかげで、その道具を使えるようになる。
+
+\end{quote}
+%Compare that quote with this pattern from Alexander:  
+
+この引用を、Alexanderのパターンと比較してほしい。
+\begin{quote}
+%POSITIVE OUTDOOR SPACE  
+
+積極的な意味を持つ屋外の空間（POSITIVE OUTDOOR SPACE）
+
+%Outdoor spaces which are merely “left over” between buildings will, in general, not be used...  
+
+単に建物の間に「残された」だけにすぎない屋外の空間は、一般に、使われることがない...
+
+%Make all the outdoor spaces which surround and lie between your buildings positive.  Give each one some degree of enclosure;  surround each space with wings of buildings, trees, hedges, fences, arcades, and trellised walks,   until it becomes an entity with a positive quality and does not spill out indefinitely around corners.  
+
+建物を囲んでいたり、建物の間にある屋外の空間すべてに対して積極的な意味を与えなさい。空間それぞれをある程度囲いなさい。各空間を、建物、木、垣根、フェンス、アーケードや垣根のついた遊歩道で囲み、その空間に積極的な価値を持たせて、隅から漠然とこぼれてしまわないようにしなさい。
+\end{quote}
+%Such space arises from differentiation of the larger original space   --   a kind of local breaking of symmetry.  
+
+そのような空間は、元々ある、より大きな空間を分化させることで生じる。これはある種の「対称性の局所的な破れ」である。
+
+%Christopher Alexander reminds us, again, that geometry drives much deeper into our understanding of things   than we give it credit for.  
+
+Christopher Alexanderがここでも我々に思い出させてくれるのは、我々が物事を理解する際に、幾何学は我々が思うよりもはるかに深い役割を果たしている、ということだ。
+\begin{quote}
+%A pulsating, fluid, but nonetheless definite entity swims in your mind's eye.   It is a geometrical image, it is far more than the knowledge of the problem;  it is the knowledge of the problem, coupled with the knowledge of the kinds of geometrics which will solve the problem, and coupled with the feeling which is created by that kind of geometry solving that problem.  (Christopher Alexander, The Timeless Way of Building, Chapter 9)
+
+脈動し、流動的であるが、それにもかかわらず確かな実体が、あなたの心の眼の中で泳いでいる。それが幾何学的イメージである。これは問題に対する知識をはるかに超えるものだ。この問題に対する知識は、問題を解決するであろう幾何学の知識と、その問題を解決しつつある幾何学が生み出す感性と結びついている。(Christopher Alexander, \textit{The Timeless Way of Building}, Chapter 9) 
+\end{quote}
+%What's more, is that we gain a hint here is that this geometry is dynamic.  It is “pulsating” and “fluid.” It is clearly about form.  And we see the word “feeling” appear again for the first time in a long while.  It is what Alexander calls a Whole, and it solves a problem -- whether physical, economical, or psychological -- for some person.  Or for the universe.
+
+さらにここからは、幾何学がダイナミックであるという示唆も得られる。幾何学は、「脈動し」、「流動的である」。これは明らかに、型の持つ性質だ。そして、ここで実に久しぶりに「感性」という単語が現れたのを見てとることができる。感性とははAlexanderが、「全体（Whole）」と呼ぶものであり、誰かのために問題を解決するものである。こうした問題には物理的、経済的、あるいは精神的なものもある。あるいは、この問題解決は人ではなく、世界（universe）のためかもしれない。
+
+%If we get form right, we provide comfort to our end users.  A good clock interface won't have the opportunity to confuse the user.  Perhaps it should display only analog images and omit the digital representations.  At least there would be no opportunity for our earlier observed error in that kind of interface.  But these are details.  A good interface maps onto the end user mental model of their world.
+
+我々が型を正しく理解すれば、エンドユーザーを快適にさせることができる。優れた時計のインターフェイスはユーザーを混乱させることがない。先ほどの例で言えば、おそらく、アナログのイメージだけを表示して、デジタル表現を省略すべきなのだろう。少なくとも、そういうインターフェイスであれば、我々が最初に見たエラーが起きる可能性はない。しかし、これらはささいなことである。優れたインターフェイスは、エンドユーザーの世界観に関するメンタルモデルに重ね合わせることができるということなのだ。
+
+%The Form of Software 
+\subsection*{ソフトウェアの型}
+%The debate occasionally arises of whether software has shape or form.  The original goal of object orientation was to capture human mental models in the computer, so the computer could serve as an extension of human memory and processing power.  The obvious challenge is the technology mismatch between wetware and software.  It is important both that the end user be able to perceive and reason about the items in computer memory, and that the user be able to interact with those items.
+
+「ソフトウェアにあるのは形（shape）か、それとも型（form）か」という議論が時々起きる。オブジェクト指向の本来の目標はコンピュータで人間のメンタルモデルをとらえることであった。すると、コンピュータは人間の記憶と処理能力を拡張するものとして用いることができる。明らかに課題となるのは、脳とソフトウェアとの間にある技術的な不整合である。エンドユーザーがコンピュータ・メモリ内の項目を認識し、推測することができることと、エンドユーザーがそうした項目とやりとりできることは、どちらも重要なのだ。
+
+%We call those items objects.  Each object that represents part of the human mental model pairs up with one or more view objects that carry the knowledge of how to visually represent a given object to a given end user.   Each mental-model object may have multiple views for any single user:  for example, a given user may explore a data set either as a pie chart or a bar graph.  The system may cater to different users with different views, because every person is different, and each may have his or her own mental model of the world.
+
+我々は、それらの項目を\textsf{オブジェクト}と呼ぶ。人間のメンタルモデルの一部分を表現する各オブジェクトは、ひとつか複数のビューオブジェクトと対になる。このビューオブジェクトは、あるエンドユーザーに対してあるオブジェクトを視覚的に表現するにはどうすればよいかという知識を持っている。各メンタルモデル・オブジェクトは、1人のユーザーに対して複数のビューを提供するかもしれない。たとえば、ある1人のユーザーは、データセットを調査する際に円グラフを使うこともあれば、棒グラフを使うこともあるかもしれないのだ。また、システムは別々のユーザーに対して別々のビューを提供しなければならないかもしれない。人は皆それぞれ異なり、世界に対する独自のメンタルモデルを持っているかもしれないからだ。
+
+%The computer display, then, displays a geometry of the end-user mental model.  Each screenful is a system:  a cogent reflection of the end-user mental model at any given time.  Why does it work well?  Geometry is one of the major organizing principles of human cognition.  Our brains are highly optimized to pick out geometries in tight coupling with the visual cortex.  For example, we instantly recognize straight horizontal and vertical lines and tend to to filter out those that are less straight or angular, and this selection takes place at a very low level of wetware processing.  Each of these screens, these systems, might well be formalized as a pattern language.  It reflects an “end state” of some sequence of patterns that has been applied again and again in the past and which will recur again in the future.
+
+したがって、コンピュータの画面は、エンドユーザーの持つメンタルモデルの幾何学的表現を表示することになる。各画面はそれぞれが体系である。すなわち、いかなる時でも、エンドユーザーのメンタルモデルを強く反映するからだ。なぜ、これがうまく機能するのだろうか？　幾何学は、人間の認識を構成する主要な原則のうちのひとつなのだ。我々の脳は、視覚皮質と緊密に結びついた幾何学模様を拾い上げるよう、高度に最適化されている。たとえば、我々は水平や垂直のまっすぐな線をすぐに認識して、曲がっていたり角度がおかしかったりする線を意識から外す傾向がある。こうした選択は、脳で行われる処理の中のきわめて低次のレベルで行われるのだ。これらの画面、あるいは体系は、パターンランゲージとして形式化することもできる。これは、一連のパターンの「最終状態」を反映している。これは過去に何度も適用されたものであり、将来再び繰り返されるであろうものだ。
+
+%Last, we enable the end user to interact with these views.  An object called the Controller creates and coordinates views.  It also coordinates the display and the input device for operations such as selection.  The combination of the human mental Models -- represented as objects in computer memory -- together with the Views and the Controller, form a pattern language.  The language is called Model-View-Controller-User, or MVC-U.\footnote[1]{We make the “U” explicit to emphasize the place of the User in the Whole built by the pattern language.   }   Its patterns include the following   (Trygve Reenskaug, The Model View Controller: Its Past and Present, 2003):   
+
+最後に、我々は、エンドユーザーがこれらのビューとやりとりできるようにする。コントローラと呼ばれるオブジェクトが、複数のビューを生成し、ビュー間の調整を行うのだ。さらにコントローラは、画面や選択のような操作のための入力デバイスの調整も行う。コンピュータ・メモリ上でオブジェクトとして表現される人間のメンタルモデルを、ビューやコントローラと組み合わせることで、パターンランゲージが形成される。このパターンランゲージは、Model-View-Controller-UserまたはMVC-U\footnote{「U」を明示的にしたのは、パターンランゲージによって作られる「全体」におけるユーザーの位置づけを強調するためである。}と呼ばれている。そこには、次に挙げるパターンが含まれている(Trygve Reenskaug, \textit{The Model View Controller: Its Past and Present}, 2003):
+
+\begin{quote}
+統合されたドメインサービス（INTEGRATED DOMAIN SERVICES）\\
+ライン部門がドメインコンポーネントを所有する（LINE DEPARTMENT OWNS DOMAIN COMPONENTS）\\
+メンタルオブジェクトモデル（MENTAL OBJECT MODELS）\\
+個人情報システム（PERSONAL INFORMATION SYSTEMS）\\
+ドメイン／ユーザマトリクス（DOMAIN/USER MATRIX）\\
+モデル／エディタの分離（MODEL/EDITOR SEPARATION）\\
+入力／出力の分離（INPUT/OUTPUT SEPARATION）\\
+タスクのためのツール（TOOLS FOR TASKS）\\
+コンポジットとしてのツール（TOOL AS A COMPOSITE）\\
+同期化した選択（SYNCHRONIZE SELECTION）\\
+同期化したモデルとビュー（SYNCHRONIZE MODEL AND VIEW）
+\end{quote}
+%These patterns represent a geometry in the programmer's mental model.  It is a geometry designed to support, in a general way, the structuring of the relationship between the wetware and the software.  Programmers are people, too, and their mental models weave together with those of the end user in a program.   
+
+\textsf{これらの}パターンは、プログラマのメンタルモデルにおける幾何学を表現している。この幾何学は、脳とソフトウェアの関係の構築を一般的なやり方でサポートするように設計されている。プログラマも人間なのであり、プログラマのメンタルモデルはエンドユーザーのメンタルモデルとプログラムにおいて織り合わされる。
+
+%MVC gives the users to directly manipulate objects in computer memory as though they were real-world objects mirrored in their own mental models.  So as I work with my word processor here, I feel as though I am writing on a paper or at least typing on a typewriter, and directly manipulating the model of the paragraph that exists in my mind.  The Model contains data that encodes the information in my mind   (there is no information in a computer;  it comes into being only in the presence of human interpretation).  The Controller and the View together form a tool that provides the illusion of direct manipulation to the end user.  The job of the tool and of MVC overall is to align the geometries of the human mind and computer memory.
+
+MVCのおかげで、ユーザーはコンピュータメモリ上のオブジェクトを直接操作できるようになる。それも、自身のメンタルモデルに映し出された現実世界のものを操作しているかのように行えるのである。そうすることで、私がここで私のワープロで作業している際には、まるで私自身が紙に書いてるか、少なくともタイプライターを打っているかのように感じ、また、心の中に存在する段落のモデルを直接操作しているように感じるのだ。モデルには、心の中にある\textsf{情報}をエンコードした\textsf{データ}が含まれる（コンピュータの中にあるうちは、それを情報とは言わない。人間が解釈してはじめて情報になるのだ）。コントローラとビューは、一緒になってツールを形成する。このツールによって、エンドユーザーは直接操作しているという幻想を与えられるのだ。ツールおよびMVCがやるべき仕事は、人間の精神とコンピュータメモリの幾何学を整合させることなのだ。
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{mvc.eps}
+\end{reviewimage}
+
+%The result is the direct manipulation metaphor:  the sense that the end user is directly manipulating the real world.  The end user feels that they are in control.  I am in control of the content and formatting of the paragraph I am currently working with.  Sometimes the word processor gets in the way and I lose control   -- such as happens when I use another word process to try to put a picture right in the middle of a paragraph where I want it.  The programmer's mental model of my world missed the mark.  The word processor's architecture is wrong.  It causes me to feel I am not in control.  It causes me to be surprised by the program's response.  In the extreme, it renders the program unusable.
+
+この結果が「直接操作メタファー」、つまり、エンドユーザーが現実の世界を直接操っているという感覚である。エンドユーザーは、自らがコントロールしていると感じる。私は、私が現在書いている段落の内容とフォーマットに関して、自分でコントロールしているのだ。時々、ワープロが妨げになることもあり、私がコントロールできなくなる。こうしたことが起こるのは、いつもと違うワープロを使って、ある絵を段落のちょうど真ん中の自分が置きたいと思う場所に置こうとするような場合だ。私の世界観に関するプログラマのメンタルモデルは的外れだったということだ。このワープロのアーキテクチャは間違っている。このアーキテクチャは、私にコントロールできていないと感じさせ、プログラムの反応で私を驚かせる。極論すれば、そのせいでプログラムが使えなくなるのだ。
+
+%Why do these lapses in usability arise so often in software?  Too often, it seems, software engineers eagerly pursue the mastery of patterns of their own mental models instead of going back to the original end user mental models.  It is somewhat like focusing on the scaffolding and according second-class status to the cathedral being constructed within the scaffolds.  Many programmers view MVC as just a variant of the OBSERVER pattern   (Eric Gamma et al., Design Patterns: Elements of Re-Usable Object-Oriented Software),   but that is a nave nerd-centric view that tends to discard the human element.  And as we'll see later on, there are even more important end-user patterns beyond those honored by MVC-U.   Alexander reminds us that the essence of design is to leave the end user in control.  Alexander believes that great homes are designed by their inhabitants, guided by the timeless pattern languages of their culture:
+
+ソフトウェアにおけるユーザビリティに関するこうした過ちは、なぜ、これほどしばしば起こってしまうのだろうか？　ソフトウェアエンジニアが自身のメンタルモデルのパターンを習得しようと熱心になり、本来やるべきエンドユーザーのメンタルモデルに立ち戻る作業をしていないことがあまりに多いのではないだろうか。それはあたかも、足場に集中して、足場の中で建設されている大聖堂を二の次にしてしまうようなものだ。多くのプログラマが、MVCをOBSERVERパターンの変種と考えている(Eric Gamma et al., \textit{Design Patterns: Elements of Re-Usable Object-Oriented Software})、しかし、それは人間的な要素を捨て去ってしまいがちな、素朴なオタク中心の見方である。しかも、後述するように、MVC-Uが敬意を示すものを超え、さらに重要なエンドユーザーのパターンが存在するのだ。Alexanderは我々に、設計の本質がエンドユーザーにコントロールを委ねることにあるということを思い出させてくれた。Alexanderは、優れた家はそこに住む人によって設計されるのだと教えてくれた。こうした設計は、住む人の文化に存在する時を超えたパターンランゲージによって導かれるのだ。
+
+\begin{quote}
+%On the other hand, people need a chance to identify with the part of the environment in which they live and work;  they want some sense of ownership, some sense of territory.  The most vital question about the various places in any community is always this:  Do the people who use them own them psychologically?  Do they feel that they can do with them as they wish;  do they feel that the place is theirs;  are they free to make the place their own?  (Christopher Alexander, The Oregon Experiment, p. 38)   
+
+また一方で、人は、自らが住み、そして働く環境の一部によって自らを識別する機会を必要とする。人間というものは所有の感覚と縄張りの感覚を欲するのだ。あらゆる共同体内のさまざまな場所に関する最も重要な問いかけは、いつもこうだ。すなわち、家を使う人々は心理的にも家を所有しているだろうか？　家を使って好きなことができると感じているだろうか？　そして、その場所が、自分たちのものであると感じているだろうか？　さらに、その場所を好きなようにできると感じているだろうか？(Christopher Alexander, \textit{The Oregon Experiment}, p. 38) 
+\end{quote}
+
+%The Emperor's New Patterns 
+\section*{皇帝の新しいパターン、または裸の王様}
+%It doesn't take too much imagination to see that the software pattern discipline has missed the mark of human habitability.  Software engineers have retreated into software engineering.  Software architects have retreated into esoteric areas of notation and abstract principles such as reuse and interoperability.  It isn't that their patterns are unimportant.  They reflect human mental models.  It's just that the primary human focus is on the programmers rather than on the end users.  They've solved half the problem, that of the scaffolding.  But even more disappointing, most software “patterns” fail to meet even the most basic criteria of being a pattern,   and the industry has now arisen to a level of arrogant self-righteousness that attempts to defend, yet not properly justify, its ignorance.  It might better be said that the industry is irrevocably apologizing for this lapse by citing the Vernacular Rule:  meaning is defined by use rather than history.  And they are right.  So we leave the pattern people to their vernacular world, and we move on to the time-honored foundations that once were the hope of the nascent pattern community.
+
+ソフトウェア・パターン学派が、人間にとっての住み易さという指標を失っていることを見てとるのに、それほど想像力は必要としない。ソフトウェア・エンジニアは、ソフトウェア工学へと撤退し、ソフトウェア・アーキテクトは、再利用や相互作用などの抽象的な原則や、表記法といった小難しい領域へと退却した。こうした人々のパターンが重要でないということではない。これらのパターンも、人間のメンタルモデルを反映している。ただ、人間に対する主要な焦点が、エンドユーザーではなく、プログラマに合わせられているのだ。こうしたパターンも、問題の半分は解決している。すなわち、足場の問題だ。しかし、一層期待はずれなことに、ほとんどのソフトウェア「パターン」は、パターンであるために必要な最も基本的な基準さえ満たすことができていない。そして、ソフトウェア業界は、今や、あまりにも傲慢で独善的になり、自らの無知を弁護しようとはしても、適切に根拠を示そうとはしなくなってしまったのだ。ソフトウェア業界は結局、この過ちについて、彼らが定めたルールを引用して謝るべきだろう。「意味は、歴史よりもむしろ使い方によって定義される。」その通りだ。そこで、我々はパターンを信奉する人々を彼らの土地に放っておき、自分たちは由緒正しい基礎へと進んでいこう。この基礎こそ、かつて、パターンコミュニティが生まれたばかりのころに希望だったものなのだ。
+
+%Is there hope?  Do these ideals live on today?  Strangely enough, some of them do.   Patterns probably failed because they pushed the Open Source metaphor too far.  The pattern community established an ethic of freely publishing patterns with the intent that they be re-copied and disseminated.  The community took great pains to make sure that each pattern was self-standing, that was an enabling specification that could touch put the designer in touch with their inspiration to the degree that they could take it from there.  It's difficult to sustain a consulting business around a body of literature that is designed to stand alone.  Indeed, one of the founders of the software pattern discipline lamented in April of 1994 that “Fact is, my patterns effort have been cutting into revenue and it can't continue.”   
+
+希望はあるだろうか？こうした理想は、今日も生き続けているだろうか？不思議なことに、生き続けているものもある。パターンが失敗したのは、おそらく、オープンソースというメタファーをあまりに遠くまで持ってきてしまったからだろう。パターン・コミュニティは、パターンを自由に公開してよいという倫理を構築した。これは、パターンが繰り返しコピーされ、普及するようにという意図によるものだった。パターン・コミュニティはパターンがそれぞれ自立していることを保証するために、多大な犠牲を払った。各パターンは実行可能な仕様であり、設計者が自らのインスピレーションと触れ合って、そこから何かを得ることができるようにするものだ。自立するように設計されている文献を基にしてビジネスのコンサルティングを続けるのは難しい。実際、ソフトウェア・パターン学派の創始者の1人は、1994年4月にこう嘆いている。「実は、パターンに向けた私の努力から得られる収入は減ってしまい、続けていくことができない。」
+
+%Nonetheless, the pattern ideals and foundations found a new outlet in about 1997:  the market packaging called XP.  And in 2001, seventeen males, almost all of them consultants, would come together in a three day meeting to write the Agile Manifesto you can find earlier in this paper.
+
+それにもかかわらず、パターンの理想と基礎は、1997年ごろに新しい出口を発見した。それが、XPと呼ばれる商用パッケージだ。そして、2001年には、男性17人（ほぼ全員がコンサルタントである）が集まって３日間のミーティングを行い、本稿で前述したアジャイル宣言を書いた。
+
+\begin{center}
+\begin{tabularx}{140mm}{| X | X |} 
+\hline
+%Alexander
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} ALEXANDER} & 
+%AGILE MANIFESTO 
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} アジャイル宣言} \\
+\hline
+%The most vital question about the various places in any community is always this:  Do the people who use them own them psychologically? 
+あらゆる共同体内のさまざまな場所に関する最も重要な問いかけは、いつもこうだ。家を使う人々は、家を心理的に所有しているだろうか？&
+%Individuals and interactions over processes and tools 
+プロセスやツールよりも個人と対話を  \\
+\hline
+%Once the buildings are conceived like this, they can be built, directly, from a few simple marks made in the ground--again within a common language, but directly, and without the use of drawings.
+いったん、建物がこのように理解されれば、地面に置いたいくつかのシンプルなマークを基に建物を建てることができる。ここでも共通の言語が使われるが、より直接的であり、図面は必要ない。 &
+%Working software over comprehensive documentation 
+包括的なドキュメントよりも、動作するソフトウェアを  \\
+\hline
+%All decisions about what to build, and how to build it, will be in the hands of the users.  
+何を構築するべきか、そして、どのように構築するべきかということに関するあらゆる決定は、ユーザーの手に委ねられる。&
+%Customer collaboration over contract negotiation 
+契約に関する交渉よりも、顧客との協業を  \\
+\hline
+%Adaptation between buildings and their users is necessarily a slow and continuous business. 
+建物とユーザーとの間で起きる順応は、ゆっくりと継続するものだ。 &
+%Responding to change over following a plan 
+計画に従うよりも、変化への対応を \\
+\hline
+\end{tabularx}
+\end{center}
+
+%Agile could have brought newfound hope to Alexander's vision.  However, some of Alexander's key notions fell as casualties of the transition.  One of them was the notion of geometry and form.  Disillusioned with the structure-laden heavy-weight architectures that were coming out of the UML world in the 1990s, XP and Agile declared:  “You ain't gonna need it!”, or “YAGNI”, which was broadly interpreted as a call to stop doing up-front work.  In fact, the culture gave rise to a new set of profanities such as BUFD (“big up-front design”) in a buzzword-laden culture that struck fear into the hearts of managers who depended on the insights that their domain experts lent to the system form.  It's better to use a process that allows programmers to craft system form a piece at a time than to be held hostage to a small number of individuals, such as domain experts or architects, who might leave your company any day or, worse, ask for a raise.   Thus TDD receive broad support and displaced the timeless forms and pattern languages of the end-user world.
+
+アジャイルであれば、Alexanderの展望に新たな希望をもたらすこともできただろう。しかしながら、Alexanderの持っていた主要な考え方のいくつかが、移行の際に犠牲となって落ちてしまった。そのひとつが、幾何学と型の考え方である。1990年代のUML界が生み出したのは、構造を背負い込んだ重量級のアーキテクチャだったが、それに幻滅したXPとアジャイルはこう宣言した。「必要ないだろう！（You ain't gonna need it!）」つまり「YAGNI」である。この言葉は、アップフロントに作業をするのはもう止めろという命令であると解釈された。実際、こうした文化はバズワードに溢れた文化の中に、BUFD（「巨大なアップフロントの設計（big up-front design）」）といった冒涜的な言葉をひととおり生み出した。こうした言葉は、システムに型をもたらすためにドメインエキスパートの洞察に頼っていた経営陣に恐れを植えつけた。プログラマたちがシステムの型を少しずつ作るようなプロセスを用いた方が、ドメインエキスパートやアーキテクトといった少数の個人に人質をとられるよりはましである。こうした人々はいつか会社を辞めてしまうかもしれないし、さらに悪いことに、給料を上げろと要求してくるかもしれないのだ。こうして、TDDは広く支持されるようになり、エンドユーザーの世界にあった時を超えた型とパターンランゲージに置き換わったのである。
+
+%Such pattern thinking that survived focused on the mental model of the lowly, poorly-paid programmer rather than the high-risk, expensive architects.  The Design Patterns book (Gamma et al., 1994) unwittingly led the way.  It made life good for the consultants.
+
+こうして生き延びたパターン的思考は、リスクと単価の高いアーキテクトよりも、単価の安いプログラマのメンタルモデルに焦点を合わせた。デザインパターン本（Gamma他 1994）が、図らずもその道を開いたのである。このおかげで、コンサルタントの生活は楽になった。
+
+%Back to the foundations of Architecture 
+\section*{アーキテクチャの基礎に立ち返る}
+%This sounds like a crisis in software architecture, but in fact, the problem drives even much deeper.  The software community viewed patterns as static elements of recurring structure, codified as form.  That is, form was little more than a compressed representation of recurring structure.  There was a lot of evidence to convict patterns of being just that.  Alexander clearly underscores the importance of geometry in his writings and in his practice.  When designing a community, Alexander lays out flags delineating the placement of buildings on the site.  One can stand in each virtual building and assess the vista from windows-to-be.  Below is picture of Alexander's layout of the Eishin school outside Tokyo.
+
+こうしたことは、ソフトウェアアーキテクチャにおける危機であるように聞こえる。だが実は、問題はもっと根深いのだ。ソフトウェアコミュニティは、パターンのことを繰り返される\textsf{構造}の静的な要素のうち、\textsf{型}として分類されたものと見なしていた。つまり、型は繰り返される構造の、圧縮された表現でしかないのだ。パターンがその程度のものでしかないということを身につまされる証拠は、数多くある。Alexanderは、著作や実践において、明らかに幾何学の重要性を強調している。共同体を設計する際、Alexanderは、実際の現場で建物を建てる位置の輪郭を示すために、旗を立てている。この仮想的な建物の中に立てば、窓になるであろう場所からの眺めを評価することができる。次に示すのは、東京の郊外にある盈進学園東野高校をAlexanderがレイアウトしたものである。
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{eishin.eps}
+\end{reviewimage}
+
+%However, architecture has a hidden side that doesn't show up in a casual view of form.  Time is as important to architecture as structure is.  This is nowhere more obvious than in Stewart Brandt's wonderful book How Buildings Learn.   The book is full of photographs of buildings, taken years apart, showing how buildings radically change their function over time while retaining much of their original form.  Churches become restaurants;  military barracks become research labs;  horse stables become restaurants, offices, and a host of other human dwellings.
+
+しかしながら、アーキテクチャには、型に通常の見方からは現れることのない隠された側面がある。すなわち、時間も、構造と同じくアーキテクチャにとって重要なのだ。これについては、Stewart Brandtによる素晴らしい本『\textit{How Buildings Learn}』を読むのが一番わかりやすい。この本には、建物の写真が数多く載せられている。これらの写真は数年あけて撮られており、時間と共に建物の機能が大幅に変わりつつ、元々の型を保っている様子が示されている。教会はレストランになり、軍のバラックが研究所になる。厩舎は、レストランやオフィス、あるいは他の人の住居となる。
+
+%Yet How Buildings Learn makes time explicit and separate from form:  a lens through which we assess the evolution of form.  Time and form are in general much more subtly related.  The epitome of this subtlety can be found in the Japanese concept of ma, which is usually translated “space-time.” It includes the temporal synchronization of events in a certain spatial context.
+
+それでも、『\textit{How Buildings Learn}』では、時間が明示され、型とは区別されている。すなわち、時間とは、我々が型の進化を評価するためのレンズなのだ。時間と型は、一般的には、はるかに繊細に関連づけられている。こうした繊細さは、日本の「間」の概念の中に典型的に見出すことができる。「間」は通常「空間-時間（space-time）」と翻訳される。この概念には、空間的な特定のコンテキストにおいて生じる出来事の、時間的な同期性が含まれているのだ。
+
+%The Function of Form 
+\section*{型の機能}
+%Alexander, whose work was heavily influenced by Oriental philosophy, tends towards this subtle confluence of form and time.  His works long have been viewed as reflecting only the form of structure:  the differentiation of space.  However, consider the following quote:
+
+Alexanderの仕事は東洋哲学によって大きく影響を受けており、こうした型と時間を繊細に重ね合わせる傾向がある。彼の仕事は、長いこと構造の型だけを反映していると見なされていた。それがすなわち、空間の分化である。しかしながら、次の引用について考えてほしい。
+
+\begin{quote}
+%And finally, of course, I want to paint a picture which allows me to understand the patterns of events which keep on happening in the thing whose structure I seek.  In other words, I hope to find a picture, or a structure, which will, in some rather obvious and simple sense, account for the outward properties, for the pattern of events of the thing which I am studying.  (Christopher Alexander, The Timeless Way of Building, Chapter 5, 1979)   
+
+そして最後には、もちろん、私はある絵を描きたいのだ。その絵によって、私が構造を探そうとするものの中で生起し続ける出来事のパターンを理解できるようになるような、そんな絵を描きたいのである。言い換えると、私はある絵、あるいはある構造を見つけたいと願っている。こうした絵や構造は、もう少し明らかで単純な意味において、外面的な性質、すなわち出来事のパターンを説明するようなものだ。こうしたパターンを私は研究しているのである。(Christopher Alexander, \textit{The Timeless Way of Building}, Chapter 5, 1979) 
+\end{quote}
+
+%This is no late-breaking refinement of Alexander's ideas, but one of the fundamentals of his early work.  Mull over the haunting phrase patterns of events.  This phrase doesn't speak as much to form as it hints at placement of things within a space or the state of a space.  What are the events of a kitchen?  In an American farmhouse, they include cooking;  welcoming guests (but only from the neighborhood), and having a winter afternoon coffee.  It might also serve as the location for the children's evening homework projects.  It is roughly the same long-term invariant form, but it is a form that serves and supports these transitions in state.  These transitions tend to recur;  there tend to be cycles of life that happens there.  And the room supports those cycles -- those patterns  (Christopher Alexander, The Timeless Way of Building, Chapter 4):  
+
+こうしたことは、Alexanderの考え方が後に精緻化されて現れてきたものではない。初期の仕事における基礎のひとつにもなっているのである。出来事のパターン、という琴線に触れるフレーズについて検討してほしい。このフレーズは、型について語っている以上に、空間におけるものの位置づけや、空間の状態についても示唆している。台所の出来事とは、何であろうか？アメリカの農家であれば、こうした出来事には料理が含まれる。客（とはいえ、近所に住む人だけ）を歓迎して、冬の午後のコーヒーを飲む。また台所は、子供たちが夕方宿題をする場所になるかもしれない。こうしたことは、長い眼で見れば、おおよそ変わらない型であるが、こうした状態の変遷を可能にし、支えるものでもある。こうした変遷は、繰り返される傾向がある。こうした変遷は、その場所で生起する人生のサイクルとなる傾向があるのだ。そして、部屋はそうしたサイクル、そうしたパターンを支えるのである。(Christopher Alexander, \textit{The Timeless Way of Building}, Chapter 4):
+\begin{quote}
+%To understand this clearly, we must first recognize that what a town or building is, is governed, above all, by what is happening there.
+
+このことを明確に理解するために、我々はまず、街や建物が何であるかということが、そこで何が起きているかによってまず支配されるのだということを認めなければならない。
+
+%I mean this in the most general sense.
+
+これは、もっとも一般的な意味で言っている。
+
+%Activities;  events;  forces;  situations;  lightning strikes;  fish die;  water flows;  lovers quarrel;  a cake burns;  cats chase each other;  a hummingbird sits outside my window;  friends come by;  my car breaks down;  lovers' reunion;  children born;  grandparents go broke. . . .
+
+活動、出来事、影響力、状況。雷が落ちる。魚が死ぬ。水が流れる。恋人たちが喧嘩する。ケーキが焼かれる。猫が追いかけっこをする。ハチドリが窓際にとまる。友人がやって来る。私の車が壊れる。恋人たちが仲直りをする。子供が生まれる。祖父母が破産する・・・。
+
+%My life is made of episodes like this.  
+
+私の人生は、こうしたエピソードからできている。
+
+%The life of every person, animal, plant, creature, is made of similar episodes.  
+
+あらゆる人、動物、設備、生き物の生涯は、似たようなエピソードからできている。
+
+%The character of a place, then, is given to it by the episodes which happen there.
+
+したがって、場所の特徴は、その場所で起きるエピソードによって与えられるのだ。
+
+%Those of us who are concerned with buildings tend to forget too easily that all the life and soul of a place, all of our experiences there, depend not simply on the physical environment, but on the patterns of events which we experience there.
+
+\textsf{建物に関心を持つ人々が容易に忘れがちなのは、ある場所に存在する、あらゆる生命と魂、そこでのすべての経験は、物理的な環境に依存するだけでなく、そこで経験する出来事のパターンにも依存しているということだ。}
+\end{quote}
+
+%He continues:
+
+さらにAlexanderはこう続ける。
+
+\begin{quote}
+%Compare the power and importance of these events with the other purely geometrical aspects of the environment, which. architects concern themselves with.   
+
+\textsf{こうした出来事の持つ力と重要性を、建築家が関心を持つような、その環境にある純粋に幾何学的な側面と比較してみなさい。}
+
+%Compare, for instance, two ways of including water in a building.
+
+たとえば、水を建物に取り入れるふたつの方法を比較しなさい。
+
+%Suppose, on the one hand, that there is a concrete reflecting pool outside your room with no purpose except to reflect the sky.
+
+一方では、あなたの部屋の外にコンクリートでできた反射用のプールがあり、空を移す以外に何の目的も持っていないと想像しなさい。
+
+%And suppose, on the other hand, that there is a stream outside your room, with a small rowing boat on it, where you can go, to row, lie on the water, struggle against the stream, tip over . . . .
+
+そして、他方で、あなたの部屋の外に小川が流れていて、小さい手漕ぎボートが浮かんでおり、ボートを漕ぎ、水の上で横になり、流れに抗い、ひっくり返されるといったことができると想像しなさい・・・。
+
+%Which of these two makes the most difference to the building?  The rowing boat of course, because it alters the entire experience of the building.
+
+\textsf{これらのふたつのうち、どちらが建物にとって重要だろうか？もちろん、手漕ぎボートである。建物での経験全体を変えるものだからだ。}
+
+%It is the action of these moments, the people involved in them, and the peculiar situations, which make the impression on our lives.
+
+こうした瞬間における活動に対してこそ人々は関与するのであり、こうした特殊な状況が我々の生活に対する印象を形作るのだ。
+
+%The life of a house, or of a town, is not given to it, directly, by the shape of its buildings, or by the ornament and plan--it is given to them by the quality of the events and situations we encounter there.  Always it is our situations which allow us to be what we are.
+
+家や町での生活が、建物の形状や装飾品あるいは計画から直接与えられることはない。生活は、その場所で起きる出来事や状況の質によって与えられるのだ。我々が今の自分でいられるのは、常に、我々の置かれた状況のおかげなのである。
+
+%It is the people around us, and the most common ways we have of meeting them, of being with them, it is, in short, the ways of being which exist in our world, that make it possible for us to be alive.
+
+我々が生きていられるのは、周りにいる人々のおかげであり、そういう人々といつもどう会っているか、どう過ごしているかである。つまり、世界の中で我々がどうあるか、ということなのだ。
+
+%We know, then. that what matters in a building or a town is not its outward shape, its physical geometry alone, but the events that happen there.
+
+\textsf{さらに、建物や町において重要なのは、外観つまり物理的な幾何学だけではないということを我々は知っている。重要なのはそこで起きる出来事なのだ。}
+
+%.. .  
+
+（中略）
+
+%A building or a town is given its character, essentially, by those events which keep on happening there most often. 
+
+\textsf{建物や町の基本的な性質は、その場所で最も頻繁に生起し続けるそれらの出来事によって定まる。}
+
+%.  . . 
+
+（中略）
+
+%And just the same is true in any person's individual life... 
+
+\textsf{そして、ちょうど同じことは、個々人の人生についても言える…}
+
+%.  . .  
+
+（中略）
+
+
+%Of course, the standard patterns of events vary very much from person to person, and from culture to culture.
+
+\textsf{もちろん、出来事の標準的なパターンは、人によって、あるいは文化によって大きく異なる。}
+\end{quote}
+%These images offer a glimmer of what time means to building architecture.  Form does not follow function;  form has function.
+
+これらのイメージにより、建物を建てることにとって、時間が何を意味しているかということが垣間見える。すなわち、型が機能に従うのではなく、型が機能を\textsf{持っている}のだ。
+
+%These thoughts invoke the roots of patterns in classical Chinese and Japanese thought.  The Japanese have a word, ma (間) that is commonly translated space-time.  These two dimensions, held to be orthogonal in Western thought, can be viewed as much more closely related in Japanese culture.  This seems consistent with Alexander's notion of patterns of events.
+
+これらの考え方は、中国や日本における古典的な思想に見られるパターンのルーツを思い起こさせる。日本語には、「\textsf{間}」（ma）という言葉がある。これは一般的に\textsf{空間-時間}（\textit{space-time}）と訳される。西洋の思想では、このふたつの側面は直交すると考えられているが、日本の文化ではもっと密接に関連していると見ることができる。こうした考え方は、Alexanderの持つ出来事のパターンという考え方と一致しているようだ。
+
+%What does it mean to software?
+
+これは、ソフトウェアにとって何を意味しているのだろうか？
+
+%The Form of Function 
+\section*{機能の型}
+%Consider software for a cash machine.  It is written in an object-oriented programming language, and the objects reflect a combination of the end user mental model and programmer mental model.  We want to explore this notion of the “patterns of events” that happen there.  We can run several experiments and instrument the code to help provide us answers.   
+
+あるATM用のソフトウェアについて考えてほしい。このソフトウェアはオブジェクト指向プログラミング言語で書かれていて、オブジェクトはエンドユーザーのメンタルモデルとプログラマのメンタルモデルが組み合わされたものを反映している。我々は、そこで生起する「出来事のパターン」という考え方について探究したい。実験をいくつか行い、コードを実装することで手がかりを探ろう。
+
+\begin{reviewimage}
+\includegraphics[width=100mm]{bank.eps}
+\end{reviewimage}
+
+%Object method invocations must be the atomic building blocks of events, and any temporal patterns must be derived from their sequencing.  So we can instrument each method of the program.  First, we have each method print out its object ID when it is invoked.  The log might look like this:
+
+オブジェクトのメソッド呼び出しは、出来事に対するアトミックな構成要素でなければならず、時間に関するパターンはそうしたメソッドの順次の呼び出しから導き出されなければならない。ここで、プログラムの各メソッドを実装しよう。まずは、それぞれのメソッドに、呼び出された際にオブジェクトIDを出力させる。ログはこんな感じになるかもしれない。
+
+\begin{quote}
+0145234428   \\
+0142366280   \\
+0283346250   \\
+0347212938   \\
+0324426294   \\
+0264274548   \\
+0374616738   \\
+0164571830   \\
+0173646284   \\
+0324426294   \\
+0145234420   \\
+0264274548   
+\end{quote}
+
+%Well, not much of a pattern there.  How about if we have each method print out its class every time it is executed?  A class is a way to group objects by common structure.  Because patterns are about form, there certainly must be patterns there:
+
+さて、ここにはたいしてパターンはない。実行されるたびに、クラス名を出力させたらどうだろう？クラスとは、一般的な構造によってオブジェクトをグルーピングする方法である。パターンが型に関するものである以上、クラスにはパターンがあるに違いない。
+\begin{quote}
+SavingsAccount   \\
+CheckingAccount   \\
+Euro   \\
+SavingsAccount   \\
+SavingsAccount   \\
+Krone   \\
+InvestmentAccount   \\
+SavingsAccount   \\
+Shekel   \\
+CheckingAccount   \\
+PhoneBill  \\
+Dollar
+\end{quote}
+%While there is a soft of rhythm, it is upset by the presence of the oddly uncharacteristic PhoneBill near the end of the list.  We can make vague predictions about the nature of the next item in the sequence but it is not yet a true pattern.
+
+リズムのようなものはあるが、リストの終わり近くに唐突にPhoneBillが現れているせいでリズムが崩れている。流れの中で次に来るものの性質について、漠然と予測することはできるが、これはまだ本当のパターンではない。
+
+%On the other hand, we can have each method print out the role that its object is playing at the time the method is invoked.  The role of an object is just the name of an object within a given use case:
+
+一方、メソッドが呼び出された際にそのオブジェクトが果たしている\textsf{役割}（ロール）を出力させることもできる。オブジェクトの役割は、所定のユースケースにおけるオブジェクトの名前である。
+\begin{quote}
+SourceAccount   \\
+DestinationAccount   \\
+Amount   \\
+SourceAccount   \\
+DestinationAccount   \\
+Amount   \\
+SourceAccount   \\
+DestinationAccount   \\
+Amount   \\
+SourceAccount   \\
+DestinationAccount   \\
+Amount  
+\end{quote}
+\begin{reviewimage}
+\includegraphics[width=120mm]{role.eps}
+\end{reviewimage}
+
+%This sequence represents an indisputable pattern.  Yet it is a pattern in time, rather than a pattern in the usual sense of form.  That is, function has form.
+
+この連なりは、明らかにあるパターンを表している。それでも、これは\textsf{時間}におけるパターンであって、通常の意味で言う型におけるパターンではない。つまり、機能には型があるのだ。
+
+%The DCI Architecture: Form of Function and Function of Form 
+\section*{DCIアーキテクチャ：機能の型と型の機能}
+%The above exercise is an encouraging illustration about the patterns that exist in system function -- a form that plays out in a role model of the business interactions.  In the vein of Agile and its focus on “individuals and interactions,” these are patterns in the space of human-computer dynamics.
+
+前述した課題は、システムの機能に存在するパターンをうまく説明するためのものだ。このパターンは、業務的なインタラクションのロールモデルにおいて展開される型である。アジャイルの傾向やそこでの「個人と対話」の重視は、人間とコンピュータのダイナミクスという空間におけるパターンである。
+
+%Traditional object-orientation has missed this role perspective.  Few modern object-oriented programming languages offer any way to express the form of function.  This is curious, because one of the most instructive ways to view a programming language is in terms of its features for expressing form.  Templates express generic forms;  classes, object form;  overloading, the form of behavior in different contexts;  and so forth.  Procedures, which capture the form of function, have long disappeared from prominence in the programming scene.  What remains of them are methods or member functions that are finely splintered snippets of algorithm that are kept subordinate to the class structure.   Even then, it is almost impossible to see how these snippets compose into orchestrations that have business value or that match the end-user mental model.
+
+伝統的なオブジェクト指向では、この役割という視点が見落とされてきた。現代のオブジェクト指向プログラミング言語で、何らかのかたちで機能の型を表現しているものはあまりない。だが、これは妙な話だ。プログラミング言語を見る際の最も有益な方法のひとつが、型を表現するフィーチャという観点から考えることだからだ。テンプレートは一般的な型を表現する。クラスはオブジェクトの型であり、オーバーローディングは、別々のコンテキストにおけるふるまいの型である。プロシージャは機能の型をとらえるものだが、もう長いことプログラミング界の主流ではなくなってしまった。プロシージャが残したのが、メソッドやメンバ関数である。これらはアルゴリズムの断片をうまく分けたものであり、クラス構造に従属したままである。それでも、これらの断片がどのように組み合わされてビジネス上の価値を生み出しているのか、あるいは、エンドユーザーのメンタルモデルと整合するのかを理解するのは、ほぼ不可能である。
+
+%If we look carefully at end-user mental models, they feature both the form of the data and the form of the algorithm.  We think about our savings accounts and checking accounts when we approach an ATM.  We think about our flight (a reified event!) and our seat when we approach a plane reservation system.  Classes represent such concepts well.
+
+エンドユーザーのメンタルモデルを慎重に見れば、データの型とアルゴリズムの型を両方備えていることがわかる。我々がATMに近づいている時には、自分の預金口座と当座預金口座について考えている。また、飛行機の予約システムに近づいている時には、フライト（つまり、具体的な出来事だ！）と座席について考えるのだ。クラスは、そのような概念をうまく表現する。
+
+%When our end users are ready to actually use the ATM, they bring another set of mental models into their minds.  Ask yourself to write down the scenario of transferring money between two of your accounts in your bank.  Be sure to keep the formulation general.  You will probably come up with something like:
+
+だが、エンドユーザーが実際にATMを使う準備ができると、頭の中に、別のメンタルモデルを一式持ってくるのだ。銀行にあるふたつの口座間で送金するシナリオを書き留めてみよう。ただし、一般化できる形式で記述すること。シナリオは、おおよそこんなものになるだろう。
+
+\begin{quote}
+%The account holder selects the source account for the transfer, as well as the destination account and the amount to be transferred.  The bank debits the amount from the source account and credits the amount to the destination account.  The bank then notifies the account holder that the transfer has taken place.
+
+\underline{口座の保有者}は\underline{送金元口座}と\underline{送金先口座}、そして送金する\underline{金額}を選択する。\underline{銀行}は\underline{送金元口座}からその\underline{金額}を引き出し、\underline{送金先口座}に振り込む。それから、\underline{銀行}は\underline{口座の保有者}に、送金が行われたことを通知する。
+\end{quote}
+
+%This is obviously a use case written in free-form.  The underlined phrases constitute actors in a use case.  The use case formalism has long honored actors as a primary building block, and actors such as account holder and bank are familiar to us.  Programmers usually view use cases as a way to delineate the boundary between the customer world and their own world.  Yet here we see entities such as source account and destination account which, though part of the customer world, must be reckoned with in the programmer world.  They, too, are actors.  But from a linguistic perspective they are simply generic names for objects, each one of which collects a vastly wider collection of behaviors.  These actors help us focus on the behaviors relevant to their respective scenarios.  We can think of them as the names that the objects take on for this use case.  We may call your savings account the source account, and your checking account the destination account.  These names are roles.  For the purpose of this use case, the savings account plays the role of a source account and the checking account plays the role of a destination account.
+
+これは明らかに、フリーフォーマットで書かれたユースケースだ。下線を引かれたフレーズは、ユースケースにおける\textsf{アクター}である。ユースケースという形式では、昔からアクターが主要な構成要素であるとされており、\underline{口座保有者}や\underline{銀行}といったアクターは我々になじみが深い。プログラマは、通常、ユースケースのことを顧客の世界と自分自身の世界の間に境界線を引く方法であると考える。ただこの時、我々は\underline{送金元口座}や\underline{送金先口座}といったエンティティを見ている。これらは顧客の世界の一部ではあるが、プログラマの世界でも考慮に入れられなければならない。実は、こうしたエンティティもアクターなのだ。しかし、言語的な視点からすれば、これらのエンティティはオブジェクトに付けられた汎用的な名前にすぎず、それぞれが、ふるまいのより幅広い集合を取りまとめているだけだ。これらのアクターによって、それぞれのシナリオに関連するふるまいに集中できるようになる。このアクターのことは、オブジェクトがこのユースケースを実現する際に名乗る名前であると考えられる。あなたの預金口座を\underline{送金元口座}と呼び、当座預金口座のことを\underline{送金先口座}と呼ぶかもしれない。これらの名前が指しているのが、\textsf{役割}（\textsf{ロール}）である。このユースケースでの目的を果たすため、預金口座は\underline{送金元口座}の役割を演じ、当座預金口座は\underline{送金先口座}の役割を演じているのだ。
+
+%This notion of role appears only rarely in design methods (one example is Trygve Reenskaug's OORAM), and even more rarely in programming languages.  Though object orientation was supposed to capture the end user mental model, and though it did well to capture the form of data, it failed to capture the form of function.  That form lives in the roles.  Roles are the forgotten building block of software.
+
+このロールという概念が設計手法に登場することは滅多になく（Trygve ReenskaugのOORAMが一例である）、プログラミング言語に登場することはさらにまれである。オブジェクト指向はエンドユーザーのメンタルモデルをとらえるものと考えられており、データの型はうまくとらえたけれども、機能の型をとらえることには失敗した。この機能の型が、ロールの中に生きている。ロールは、ソフトウェアにおける忘れられた構成要素なのだ。
+
+%Historically, the main culprit has been the predominance of classes in programming languages.  Most programmers program classes;  very few of them program objects.  Programming languages such as self (Chambers and David Ungar, Self: The Power of Simplicity, http://research.sun.com/self/papers/self-power.html) make it easier to reason about objects than when programming in Java or in C++.   Modern languages such as Ruby, Python -- and even Visual Basic -- have basic features that speak of more to an object mindset than to a class mindset, though class-minded users can continue to remain stuck in their traditional thought pattern and programming style.
+
+歴史的に見れば、主に罪を帰すべきは、プログラミング言語においてクラスが優位であったことだ。ほとんどのプログラマがプログラミングするのは、クラスである。オブジェクトをプログラミングする人はごくわずかしかいない。Self(ChambersとDavid Ungar, \textit{Self: The Power of Simplicity}, \url{http://research.sun.com/self/papers/self-power.html}) のようなプログラミング言語を使えば、JavaやC++でプログラミングする時よりもオブジェクトについて考えるのが簡単になる。RubyやPython（さらにはVisual Basicも）のような現代の言語には、クラス的な思考様式よりもオブジェクト的な思考様式について多くを語る基本的なフィーチャがある。それでも、クラス的な考え方をするユーザーは自分たちがずっと続けてきた思考パターンやプログラミングスタイルに固執し続けるのだ。
+
+%Yet, classes are here to stay.  They offer software engineering advantages such as static type analysis, and they still form a significant part of programmers' mental models.
+
+だが、当面クラスは使われ続ける。クラスのおかげで、静的型分析のようなソフトウェア工学上の利点ももたらされるし、クラスはプログラマのメンタルモデルにおいて相変わらず重要な要素を構成しているのだ。
+
+%Time gets in the way 
+\subsection*{時間が立ちはだかる}
+%The fundamental problem is that software, like a building, is designed as a product, while in practice its utility is as a service.  That is why Alexander repeatedly directs us to the importance of “patterns of events” in design.  They are even more obviously prominent in software.  Software has no value as a product:  it has value only when running in a computer.  As a product, it is the code of classes.  As a service, it is running objects.  Computers add instantiation and time to classes to give us objects.
+
+根本的な問題は、ソフトウェアが建物と同じようにプロダクトとして設計されるにもかかわらず、実際に役に立つのはサービスとしてであるということだ。だからこそ、Alexanderは設計における「出来事のパターン」の重要性を繰り返し我々に説いたのだ。この重要性は、ソフトウェアにおいては一層明らかである。ソフトウェアは、プロダクトとしては価値を持たない。ソフトウェアが価値を持つのは、コンピュータ上で実行された時だけだ。製品としてみれば、ソフトウェアはクラスのコードである。サービスとしてみれば、ソフトウェアは実行されるオブジェクトなのだ。コンピュータがインスタンス化と時間をクラスに与えるおかげで、我々はオブジェクトを手にすることができる。
+
+%An end user brings two mental faculties to a user interface:  thinking, and doing.  They first ponder what the objects of a system are:  savings accounts, locations in the neighborhood, and restaurants and menus.  Having sorted that out, they then sort out what the objects do:  transfer money, find an optimal walking route, or make a reservation for dinner.  Of course, at run time, both of these things are wrapped up in one kind of concept:  an object.  The object is both the locus of identity (what the system is) and of behavior (what the system does).  It is crucial that we support this aspect of the end user mental model.  If we don't, there is likely to be discord between what the program does and what the end user expects.  Again, a good example is to try to place a graphic in the middle of a text paragraph using a common word processor.
+
+エンドユーザーがユーザーインターフェイスと向き合う際には、精神的な能力がふたつ働いている。それが、\textsf{考えること}と、\textsf{実行すること}だ。最初は、システムのオブジェクトが\textsf{どのようなものであるか}を深く考える。すなわち、預金口座、近所の場所、レストランやメニューといった具合だ。それを整理した上で、エンドユーザーはオブジェクトが\textsf{何をするか}を整理する。すなわち、送金すること、最適な散歩コースを見つけること、夕食の予約をすることなどだ。もちろん、実行時には、これらは両方とも１種類の概念にまとめられる。それが、オブジェクトだ。オブジェクトは、同一性の在処（システムが\textsf{何であるか}）であると同時に、ふるまいの在処（システムが\textsf{何をするか}）でもある。エンドユーザーのメンタルモデルにあるこの側面を我々がサポートすることは、決定的に重要だ。そうしなければ、プログラムが行っていることと、エンドユーザーが期待することが一致しなくなるだろう。ここでも、一般的なワープロを使って、テキストで書かれた段落の中央に画像を貼ろうとする時の経験が好例となる。
+
+%Because these represent two mental faculties of real people, they also show up in two different mental faculties of programmers.  Programmers are people, too.  They typically use domain engineering, or a “find-the-nouns” exercise, or their experience, to identify the what-the-system-is aspect of the software.  That is the part that is most often called software architecture and which we most often think of as system form.  This form is, in fact, relatively independent of the system requirements!  Why?  Because in the end, software is a service rather than a product.  What we sell is the service.  Jef Raskin admonishes us that the interface is the program (Jef Raskin, Humane Interfaces).  The code is just the crap that needs to go along with the interface to make it work.  However, as we know, we do need this code.  It is the classes.  It is a substantial part of the programmer mental model, and it is a repository for the templates that produce the what-the- system-is part (the thinking part) of the end-user mental model.
+
+これらは実際の人々の持つ精神的な能力を表現しているので、プログラマの持つふたつの精神的な能力としても現れる。プログラマもまた人間なのだ。概してプログラマは、ドメインエンジニアリングや、「名詞を探せ」活動、あるいはソフトウェアの「システムとは何か」に関する側面を識別するための活動を行う。それがソフトウェアアーキテクチャと呼ばれることの多いものであり、我々がシステムの型と考えるものなのだ。だが実は、この型はシステムの要件から比較的独立しているのだ！なぜか？結局のところ、ソフトウェアは製品というよりむしろサービスだからである。我々が売るのはサービスなのだ。Jef Raskinは、インターフェイスこそがプログラムなのだと我々に警告してくれた(Jef Raskin, \textit{Humane Interfaces})。コードはインターフェイスを動くようにするためにやむを得ず付随するガラクタにすぎない。しかしながら、周知の通り、我々にはそのコードが必要なのだ。それがクラスである。クラスはプログラマのメンタルモデルにおいてかなりの部分を占めており、さまざまなテンプレートを格納したリポジトリでもある。このテンプレートが、エンドユーザーのメンタルモデルにおける「システムとは何か」を表す部分（\textsf{考えること}）を生み出している。
+
+%The doing part of the end-user mental model lies in the use cases.  This is also part of the end user mental model:  it is what the system does.  We showed above that this mental model also has form.  It is the form of function, and it is expressed in the roles of the mental model.   These two aspects of the mental model come from quite different mental processes and can best be elicited using very different analysis and design techniques.  While the what-the-system-is form evolves quite slowly, the what-the-system- does side evolves quite rapidly.  We serve our markets by introducing ever new what-the-system-does stuff.
+
+エンドユーザーのメンタルモデルにおける\textsf{実行}に関わる部分は、ユースケースの中にある。これもエンドユーザーのメンタルモデルの一部なのだ。これは「システムが\textsf{何をするか}」である。メンタルモデルにも型があることはすでに示した通りである。これは機能の型であり、メンタルモデルのロールによって表現される。メンタルモデルの持つこれらふたつの側面は、まったく別の精神的なプロセスから生まれ、まったく別々の分析と設計のテクニックを用いることで最大限に顕在化する。「システムが何であるか」という型はゆっくりと進化するが、「システムが何をするか」という側面の進化は速い。我々はまったく新しい「システムが何をするか」に関するものを導入することで市場に価値をもたらしているのだ。
+
+%Unfortunately, classic object-oriented programming languages missed out on this concept of role.  The only tool left to the programmer was the class.  The class became the home both for what the system is and for what the system does.  Both of these were often combined in a single interface.  And who can blame the programmer for doing that?  After all, the end user has only a single element in their mental model:  the object.  Objects combine both what-the-system is (data) and what-the-system-does (methods) in the end-user mental model, so why not combine those in classes?  After all, objects come from classes.
+
+残念なことに、古典的なオブジェクト指向プログラミング言語は、ロールというこのコンセプトをとらえていない。プログラマに残された唯一のツールはクラスである。クラスは「システムが何であるか」と「システムが何をするか」の両方が置かれる場所となった。これらはどちらも、単一のインターフェイスの中に組み込まれることが多かった。プログラマがそうやったからといって、誰が彼らを非難できるだろう？結局、エンドユーザーのメンタルモデルに、要素はひとつしかないのだ。それが、オブジェクトである。オブジェクトは「システムが何であるか」（データ）と「システムが何をするか」（メソッド）を、エンドユーザーのメンタルモデルにおいて組み合わせている。それではなぜクラスで組み合わせないのか？結局、オブジェクトはクラスに由来しているのである。
+
+%The problem lies in the fact that behavior has a role structure that is difficult to reconcile with the class structure.  The class structure is dead, static, and local.  The real architecture of a program exists when the program exists:  at run time.  Its architecture lies latent in its objects and their behavior.  Objects are ma.  A program's architecture doesn't any more lie in its classes than the architecture of a house lies in its blueprint.  The blueprint of Chartres captures neither its architectural grandeur nor the events of reverent prayer and worship there.  We cannot examine the class structure at compile time and, at the same time, reason about run-time system behavior -- the behavior that results from composing those methods at run time.  Such reasoning is difficult because object-oriented design and programming slice and dice use cases across the what-the-system-is boundaries, rather than following the more natural role boundaries of the human mental model.  Such reasoning is in fact in general impossible because programmers not only divide this functionality across class boundaries, but they refine this behavior in sub-typing hierarchies that can can be reasoned about only at run time.  This leaves programs completely incomprehensible by the programmer.  Object-oriented method dispatch is GOTO on steroids.
+
+問題は、ふるまいにはロールの構造があり、それはクラスの構造と一致させるのが難しいということだ。クラスの構造は死んでいて、静的で、局所的だ。プログラムの実際のアーキテクチャは、プログラムが存在する時に存在する。それがすなわち、実行時だ。アーキテクチャはオブジェクトとふるまいの中に潜在しているのだ。オブジェクトは「\textsf{間}」である。プログラムのアーキテクチャは、もはやクラスの中には存在しない。これは家のアーキテクチャが設計図の中にないのと同様である。シャルトルの設計書は、そのアーキテクチャの壮麗さをとらえていないし、そこで起きる敬虔な祈りや崇拝といった出来事をとらえることもない。我々はコンパイル時にクラス構造を実行することはできないし、同時に実行時の\textsf{システム}のふるまいについて推測することもできない。ふるまいはメソッドを実行時に組み立てることで引き起こされるのだ。こうしたことを論じるのは難しい。オブジェクト指向設計やプログラミングは、ユースケースを「システムが何をするか」の境界によって切り分けており、人間のメンタルモデルにあるもっと自然なロールの境界に従わないからだ。こうした議論は実際のところ、一般的には不可能である。プログラマたちはこの機能をクラスの境界によって分割しているだけでなく、このふるまいをサブタイプの階層において洗練させていっているからである。だが、この階層は実行時にしか判断できない。これではプログラムが、プログラマのまったく理解できないものになってしまう。オブジェクト指向のメソッドディスパッチは、強化版のGOTOだ。
+
+%Enter testing 
+\subsection*{テストの世界へ}   
+%To succeed, then object-orientation needed to fall back on testing.  What cannot be reasoned about in code authorship must be left to run time.  The predominate myth is that we can improve software quality by independently designed models of code execution that we run in parallel with the code, controlling the code to run with certain constrained values and testing for the expected outputs.  Of course, those models are also static.  
+
+これでうまくいくようにするには、オブジェクト指向はテストに頼る必要がある。コードの出所から推測できないものは、動かしてみるしかない。現在多くの人が信じている神話に、コードの実行時のモデルを独立して設計し、コードと並行して走らせることでソフトウェアの品質を改善することができるというものがある。コードを制御して、制限された特定の値で実行し、期待値に対するテストをするというのだ。もちろん、こうしたモデルも静的である。
+
+%Though we cannot reason about system behavior at run time, we can reason about the behavior of local methods.  This has led to intense interest in unit testing and in driving architecture and development by those functions that you can reason about:  hence, Test-Driven Development (TDD).  This focus misses out on the emergent complexity that happens between the objects, as the “Thirty spokes hath the nave” image speaks to us from the Tao te Ching.   It also completely misses out on the end-user mental models, both of what the system is and of what the system does.  
+
+実行時のシステムのふるまいについて我々は推測することができないが、ローカルメソッドのふるまいであれば推測できる。この結果、強い興味の対象となったのが、ユニットテストであり、推測可能なこうしたファンクションによってアーキテクチャや開発を推進するという考え方である。それがテスト駆動開発（TDD）だ。この点に注意を向けたことで、オブジェクトの間から立ち現れる複雑さを取りこぼすことになった。こうした複雑さというのは道徳経の「軸と30本のスポーク」のイメージが我々に語りかけてくるものである。また、TDDは、エンドユーザーのメンタルモデルをとらえることにも失敗している。\textsf{システム}がどのようなもので、何をするのかをどちらもとらえられていないのだ。
+
+%Tony Hoare forewarned against this approach to development, and it is worth re-stating:  
+
+Tony Hoareは開発に対するこのアプローチに対して、以前から警告を発していた。彼の言葉はここに再掲する価値があるだろう。
+
+\begin{quote}
+%There are two ways of constructing a software design:  One way is to make it so simple that there are obviously no deficiencies and the other is to make it so complicated that there are no obvious deficiencies.  (C. A. R. Hoare)   
+
+ソフトウェア設計を構築するには方法がふたつある。ひとつは非常にシンプルにして欠陥がないことを明らかにする方法。もうひとつは非常に入り組んだものにして、明らかな欠陥がなくなるようにする方法。(C. A. R. Hoare)
+\end{quote}
+
+%The elements of form: What the system is, and what the system does 
+\subsection*{型の要素：システムが何であるか、そしてシステムが何をするか}
+%This brings us back to the fundamentals of architecture:  capturing form.  And it brings us back the fundamentals of Alexander's approach to design and his utmost concern for patterns of events.  
+
+この提言は我々をアーキテクチャの本質へと引き戻す。すなわち、アーキテクチャとは型をとらえることなのだ。さらにこのことは我々を、Alexanderの設計に対するアプローチや、彼が最も関心を抱いた出来事のパターンの本質へと引き戻す。
+
+%As mentioned above, the real architecture of a program lies latent in the run-time objects.  Patterns can capture the latent mental models in that structure.  The object structure is obvious, but is too complex to call an architecture:  it is like saying that the architecture of Chartres lies in its stones and bricks.   
+
+前述した通り、プログラムの本当のアーキテクチャは実行時のオブジェクトの中に潜んでいる。パターンはこの構造の中に潜んでいるメンタルモデルをとらえることができるのだ。オブジェクトの構造は明らかだが、アーキテクチャと呼ぶには複雑すぎる。まるでシャルトルのアーキテクチャが石とレンガの中にあると言うようなものだ。
+
+%But, in fact, we do have the patterns!  The first one in fact emerges from classical object orientation.  The class structure is a good representation of the recurring commonalities among sets of objects at run time from the perspective of what the system is, if we set aside their aggregate behavior.  
+
+だが実際には、我々にはパターンがあるではないか！最初のパターンは伝統的なオブジェクト指向の中から現れている。クラス構造は、システムが何であるかという視点から、実行時のオブジェクト群に見られる再帰的な共通性を表現するのに適している。ただし、オブジェクトが集まって生み出すふるまいについては脇に置いた場合の話だ。
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{classes.eps}
+\end{reviewimage} 
+
+%And, as we showed above, the role structure is a good representation of the rhythms of execution among sets of objects involved in a use case, from the perspective of what the system does.  These two views capture the end user mental model.  Having achieved that, we are much closer to the original goals of object-orientation than we find in the contemporary understanding of the paradigm.  
+
+さらに、すでに示した通り、ロール構造はユースケースに含まれるオブジェクト群に見られる実行時のリズムを適切に表現している。これはシステムが何をするかという観点から見たものだ。このふたつの視点によって、エンドユーザーのメンタルモデルをとらえることができる。それができて初めて我々は、オブジェクト指向というパラダイムに対する現在の理解を超えて、オブジェクト指向の元々の目的に迫ることができるのである。
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{roles.eps}
+\end{reviewimage} 
+
+%DCI: Data, Context, and Interaction 
+\subsection*{DCI:データ、コンテキスト、インタラクション}
+%DCI (Data, Context, and Interation) is Trygve Reenskaug's new paradigm for software development, and it recalls many of the ideals that patterns and Agile are concerned with.  (Trygve Reenskaug and Jim Coplien, The DCI Architecture:  A New Vision of Object-Oriented Programming, \url{http://www.artima.com/articles/dci_vision.html})   How does DCI work?  Let's focus first on the programmer mental model.  Programmers have to carry out the two processes of designing what- the-system-is and what-the-system-does.  For the former, we can use good old-fashioned domain analysis, or we can elicit the help of user experience people to mine end user mental models.  The programmer can encode those concepts into classes.  Those classes might even be organized into shallow classification hierarchies using inheritance, if the domain is sufficiently complicated.  That's where the patterns of structure live.  Most of the patterns in the published software literature fall into this category.  
+
+DCI（データ、コンテキスト、インタラクション）とは、Trygve Reenskaugの提唱したソフトウェア開発のための新しいパラダイムである。そしてこのパラダイムは、パターンやアジャイルが関心の対象としている理念の多くを想起させる。(Trygve Reenskaug and Jim Coplien, \textit{The DCI Architecture:A New Vision of Object-Oriented Programming}, \url{http://www.artima.com/articles/dci_vision.html}, 日本語版 \url{http://d.hatena.ne.jp/digitalsoul/20100131/1264925022}) では、DCIはどのように機能するのだろうか？まずはプログラマのメンタルモデルに目を向けよう。プログラマは、システムが何であるかを設計し、システムが何をするかを設計するというふたつのプロセスを実行しなければならない。前者に対しては、伝統的なドメイン分析の手法が使ってもよいし、ユーザーエクスペリエンスの専門家の助けを借りてユーザーのメンタルモデルを発掘してもよい。プログラマはこうして見つけた概念をクラスにエンコードできる。これらのクラスは、ドメインが入り組んだものであれば、継承を使うことで浅いクラス階層にまとめられることもあるかもしれない。ここに構造のパターンが息づくのである。世に出ているソフトウェア書籍に書かれているパターンのほとんどは、このカテゴリに当てはまる。
+
+%Second, the programmer can encode the analysis of what-the-system-does in new concepts called roles.  Above, we found roles such as source account and destination account which were distinct in kind from concepts like Savings Account and Checking Account.  While Savings Account and Checking Account are classes, source account and destination account are roles.  These roles have methods that describe how the system executes, in time.  That's where the patterns of events live.  Few, if any, published software patterns capture this side of design.  That's remarkable given the root of Alexander's pattern theory in the patterns of events.   
+
+続いて、プログラマはロールと呼ばれる新しい概念を使ってシステムが何をするかに対する分析をエンコードする。すでに見てきた通り、送金元口座と送金先口座のようなロールは、預金口座や当座預金口座のような概念とは種類が違うのである。預金口座や当座預金口座がクラスであるのに対し、送金元口座や送信先口座はロールである。これらのロールにはメソッドがあり、そこでは結局システムがどう実行されるのかが記述されている。ここに出来事のパターンが息づくのだ。設計のこの側面を扱ったソフトウェアパターンはほとんど公開されていない。出来事のパターンの中にはAlexanderのパターン理論が根ざしていることを考えれば、これは驚くべきことだ。
+
+%We capture the snippets of this execution in roles, but we need to group roles together according to their patterns of enactment in a running system.  As with all patterns, these patterns offer a solution only in some context.  Alexander defines a pattern as a solution to a problem in a context.  In DCI, we group roles together within an object representing a use case.   DCI uses the term Context to represent this object.  The name is a coincidence.  And yet, of course, it isn't.  
+
+我々は、こうした実行時の断片をロールにおいてとらえる。しかし、これらのロールは、実行時のシステムのふるまいにあるパターンに従ってまとめなければならない。あらゆるパターンと同じように、これらのパターンも一定のコンテキストにおいてしかソリューションを提供しない。Alexanderはパターンについて、あるコンテキストにおいて存在する問題に対するソリューションと定義している。DCIでは、我々はロールをまとめて、ユースケースを表現するオブジェクトの中に入れる。DCIはこのオブジェクトを表現するためにコンテキストという用語を使う。名前の一致は偶然だろうか。もちろんそんなことはない。
+
+%So much for the programmer's view.  The programmer represents this view in code.  However, this still isn't the architecture itself:  it is a representation of the architecture that attains a high degree of compression of the information in the runtime system.  We can compress it by encoding the commonalities across recurring instances of configurations of the forms both of the data and of the algorithms.  That is, we find the patterns.  At run time, there will be many class instantiations representing the concepts that the program deals with, sitting in memory, reflecting the concepts in the end user mind, awaiting the end user's bidding.  
+
+プログラマの視点についてはこのくらいにしよう。プログラマはこの見方をコードの中に表現する。しかし、これはまだアーキテクチャそのものではない。これは、実行時のシステムにある情報をかなりの程度圧縮することに成功したアーキテクチャの表象なのである。このように圧縮するために、データの型とアルゴリズムの型を設定するような、再帰するインスタンスにまたがる共通性をエンコードするのである。つまり、我々はパターンを見つけるのだ。実行時には、プログラムが扱うコンセプトを表現するため、多くのクラスがインスタンス化される。そしてメモリ上に留まり、エンドユーザーの頭の中にある概念を反映し、エンドユーザーによる操作を待つのだ。
+
+%Once done thinking, the end user does something.  The end user makes a specific request--a request for an enactment of a use case.   The architecture captures use case scenarios in the Context and its roles.  So the system chooses a Context suitable to the end user gesture or request.  The Context knows how to find objects to play each role, and it “teaches” each object how to play its role in the use case by injecting the role's methods into the object.  In some languages (Ruby, Python) this happens at run time.  In others (C++, Scala) it happens at compile time.  The resulting objects now have the knowledge to carry out the use case.  
+
+いったん\textsf{考え}終えたら、エンドユーザーは何かを\textsf{行う}。つまり、エンドユーザーは特定のリクエストを送信するのだ。このリクエストは、あるユースケースを実行するものである。DCIアーキテクチャでは、ユースケースシナリオをコンテキストとロールの中でとらえる。そこでシステムはエンドユーザーの動作やリクエストに対して適したコンテキストを選択するのである。コンテキストは各ロールを演じるオブジェクトをどう見つければよいかを知っており、各オブジェクトに対してロールメソッドをインジェクションすることで、そのユースケースにおいてどうロールを演じればよいかを各オブジェクトに「教える」のである。言語によっては（Ruby、Python）、これは実行時に行われる。あるいはコンパイル時に行う言語もある（C++、Scala）。その結果生じる\textsf{オブジェクト}は、これらのユースケースをどう実行したらよいかという知識を持っている。
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{dci.eps}
+\end{reviewimage} 
+
+%Note that this injection is done object-by-object, not class-by-class.  The architecture is the form of the interactions.  It is realized, use case by use case, in the structure of the association between roles and objects.  
+
+このインジェクションはオブジェクトごとに行われるものであって、クラスごとではないことに注意してほしい。アーキテクチャとは、このインタラクションの型なのだ。この実現は、ユースケースごとに、ロールとオブジェクトの関連構造の中で行われる。
+
+%Back to the Future 
+\section*{バック・トゥー・ザ・フューチャー}  
+%First, it was Alexander's patterns, and second, the Agile discipline, that brought the human element of architecture to the forefront of modern software design discourse.  Each of these ideals has played out in a flawed way in software:  patterns, in their loss of systems thinking, and Agile, in its consideration of form.  The DCI architecture is resurrects much of the original vision.  It is more than just a software framework and is more than just a pattern language whose form captures mental models.  It is a paradigm that captures a worldview that celebrates the human element of computer software.  
+
+まずはAlexanderのパターンが、続いてアジャイル学派が、アーキテクチャにおける人間的要素を現代ソフトウェア設計に関する議論の最前線に持ち込んだ。これらの理念はどちらも、ソフトウェアで誤って使われたせいで疲弊してしまった。体系的思考を失ったパターンと、型を考えないアジャイルによって、である。DCIアーキテクチャは、元々の考え方にあったものの大部分を蘇らせている。これは単なるソフトウェアフレームワークではないし、メンタルモデルをとらえるためのパターンランゲージに留まるものでもない。コンピュータソフトウェアにおける人間的要素を賛美するような世界観をとらえるパラダイムなのである。
+
+%Let's re-visit the original vision of the Hillside Group for patterns, and compare it to the provisions of DCI:   
+
+パターンについてヒルサイドグループが作ったオリジナル版を見直そう。そして、DCIの条文と比べてみたい。
+
+\begin{center}
+\begin{tabularx}{140mm}{| X | X |} 
+\hline
+%HILLSIDE VISION
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} ヒルサイドの展望 } & 
+%DCI 
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8}  DCI } \\
+\hline
+%・Patterns have brought to life that software is art, bifurcating the industry into pseudo-scientists and artisans 
+・パターンは、ソフトウェアが芸術なのだという考え方に生命を吹き込み、業界をエセ科学者と職人とに二分した。 &
+%・The OO world is still about methods and GUI- builders.  DCI and MVC focus on mental models and people  
+・オブジェクト指向の世界はいまだにメソッドとGUIビルダーという枠に留まっている。DCIとMVCは、メンタルモデルと人間に焦点を合わせる。 \\
+\hline
+%・They have brought a new programming language, and have enriched the vocabulary used by others. 
+・パターンは新しいプログラミング言語をもたらし、ほかの言語が使う語彙も豊かなものにした。 &
+%・Qi4j is providing DCI functionality for Java and is paving the way for Java evolution.  New languages are in the wings  
+Qi4jはJavaに対してDCIの機能を提供し、Javaが進化するための道を切り開いた。新しい言語が出番を待っている。 \\
+\hline
+%・Patterns' major use is in neural networks, where they are used to describe high-level firing patterns and distribution of computation in emerging highly distributed systems.  
+・パターンの主要な用途はニューラル・ネットワークとなった。そこではパターンが、高度な発火（firing）パターンや、台頭した高度な分散システムを記述するのに用いられている。&  
+%・DCI is motivated by Kan's vision of a highly parallel machine of objects, moving us towards the vision of programming objects as extensions of the human mind, rather than classes 
+・DCIは、Kayが構想した高度なオブジェクトの並行処理マシンである。これによって我々は、オブジェクトをクラスとしてではなく、人間精神の拡張としてプログラミングする構想に向けて動いているのである。 \\
+\hline
+%・Patterns have caused three major universities to shift software from their engineering and science programs, into liberal arts, with concomitant changes in curriculum (art history is now a pre- requisite for a comp sci degree) 
+・パターンのおかげで、著名な大学3つがソフトウェアを工科学科から、教養学科に移した。それに伴い、カリキュラムも変化した（サイエンスの学位を取るためには、歴史が前提条件となった）。 &
+%・MVC and DCI have returned human interfaces and mental models to their rightful place, with attentiveness to the aesthetics and comfort of hu- man / computer interaction rather than just tech- nical excellence 
+・MVCとDCIは人間のインターフェイスとメンタルモデルを正しい位置に戻した。その際、美学にも十分な注意を払い、単に技術的に優れているというだけではなく、人間対コンピュータのインタラクションを心地よいものにする。 \\
+\hline
+\end{tabularx}
+\end{center}
+
+%DCI also fulfills the Agile vision:   
+
+DCIはアジャイルの展望も満たしている。 
+\begin{center}
+\begin{tabularx}{140mm}{| X | X |} 
+\hline
+%AGILE MANIFESTO
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8} アジャイル宣言   } & 
+%DCI
+\multicolumn{1}{|c|}{ \rowcolor[gray]{0.8}  DCI  } \\
+\hline
+%Individuals and interactions over processes and tools 
+プロセスやツールよりも個人と対話を
+& 
+%Directly, DCI helps developers communicate with users in terms of their mental models of the world instead of computer-ese 
+直接的には、DCIは開発者を助けて、ユーザーが世界をとらえるメンタルモデルの観点からコミュニケーションできるようにする。重要なのはコンピュータの世界観ではない。
+\\
+\hline
+%Customer collaboration over contract negotiation
+契約交渉よりも顧客との協業を &
+%It provides a short path from user mental models to the code, which makes it possible to use tight feedback loops so the code converges on user expectations 
+DCIはユーザーのメンタルモデルからコードへの近道を提供してくれる。そのおかげで、緊密なフィードバックループを用いてコードをユーザーの期待に集約させることができるようになる。\\
+\hline
+%Working software over comprehensive documentation 
+網羅的な文書よりも動作するソフトウェアを &
+%DCI makes it easier for us to reason about forms that are important to the user, such as the form of the sequencing of events toward a goal in a context, and to raise our confidence that the code does what we (and ultimately, the end user) want it to 
+DCIにより、ユーザーにとって重要な、あるコンテキストにおける目標に向かうための一連のイベントの型などについて推論できるようになる。さらに、我々が望むこと（究極的にはエンドユーザーが望むこと）をコードが行っているという自信も持てるようになる。 \\
+\hline
+%Responding to change over following a plan 
+計画に従うよりも、変化に対応する &
+%It catches change were it happens and encapsulates it, rather than spreading it across the architecture (as would be the case if we distributed parts of the algorithm across existing classes) 
+DCIでは、変更が発生したところで検出し、カプセル化するので、アーキテクチャをまたがって変更が拡散することがない（アルゴリズムの一部を既存のクラスに分散させてしまえば、変更は拡散してしまう）。 \\
+\hline
+\end{tabularx}
+\end{center}
+
+%Symmetry Breaking Redux 
+\section*{対称性の破れ、再び}
+%DCI is an evolution of object orientation.  As we look back on the past 40 years of history, we can look at the major ad- vances in object-oriented design as a process of differentiation of form.  Risto V?lim?ki offers an illustration of object ori- entation's path from basic objects through the realization of DCI.  The original worldview comprised objects that encapsulated methods and data.  These systems had some texture in their form:  local symmetries across data and methods, as well as the local symmetries of inheritance hierarchies.  Both of these forms represent symmetry;  symmetry represents a pairing of invariance and potential for change across sets of things.  So a shape would contain data to represent its area;  the method area represents the same concept, though each one transforms the concept (or part of it) into a representation of bits suitable either for storage or computation.  Inheritance hierarchies exhibit a higher-order symmetry:  two classes in a hierarchy can each instantiate objects such that can interchangeably be bound to the same identifier elsewhere in the program.  This symmetry is called the Liskov substitutability principle, or sometimes, just polymorphism.   
+
+DCIはオブジェクト指向を発展させたものだ。過去40年にわたる歴史を振り返ると、オブジェクト指向設計の主な進展は型の分化の過程であるととらえることができる。Risto V\"{a}lim\"{a}kiは基本的なオブジェクトからDCIの認識まで、オブジェクト指向の辿った道のりを説明している。元々の世界像は、メソッドとデータをカプセル化したオブジェクトから構成される。これらの体系では、その型の中にある種の組織（texture）が存在する。つまり、継承階層の局所的な対称性と同じく、データやメソッドにまたがる局所的な対称性があるのだ。これらの型はどちらも対称性を表現している。そして対称性は、不変性と物事が変化する可能性の組み合わせを表現しているのだ。したがって、この領域を表現するためには形状（Shape）がデータを含むことになるかもしれない。メソッドの領域はこれと同じ概念を表現している。ただし、各メソッドはその概念（あるいは概念の一部）を、格納したり処理したりするのに適したかたちの表現に変換する。継承階層は、より高階での対称性を示す。つまり、ある階層におけるふたつのクラスは、それぞれオブジェクトをインスタンス化することができ、プログラムのどんな場所でも同一の識別子に結びつけて互いに交換することができるのだ。この対称性は、\textsf{リスコフの置換原則}と呼ばれる。あるいは、単に\textsf{ポリモルフィズム}と呼ばれることもある。   
+
+\begin{reviewimage}
+\includegraphics[width=120mm]{history.eps}
+\end{reviewimage}
+
+%However, this symmetry existed only in the code, and only for the programmer.  MVC-U added local symmetries that had relevance at run time and which therefore related to the end-user view rather than the programmer view.  It redis- tributed the object's symmetry into a visual component for the display and a computational component for the com- puter, the latter just being an object of the previous generation, now called the Model, with some logic to maintain invari- ance with its visual counterpart (the View and the Controller).  This pushed the symmetry outside the machine to squirt through into the user world.  
+
+しかし、この対称性はコードの中にしか存在せず、それゆえ、プログラマにとってのものでしかない。MVC-Uによって追加される局所的な対称性は、実行時に重要となるものである。したがって、プログラマの視点よりもエンドユーザーの視点と関連づけられるのだ。MVC-Uにより、オブジェクトの対称性が、表示用コンポーネントと処理用コンポーネントとの間に再配置される。後者は一昔前のオブジェクトであり、今はモデルと呼ばれる。\textsf{モデル}には、対応する表示用コンポーネント（\textsf{ビュー}と\textsf{コントローラ}）の不変性を保つためにある程度ロジックが含まれる。こうすることで、対称性がマシンの外に押し出され、ユーザーの世界へとほとばしり出るのだ。  
+
+%One way to view DCI is that it further redistributes the local symmetries of the Model into parts that are differentiated for system-level action and for local concerns.  We introduce the Context, which is in fact a composition of the symmetries of role methods that formerly existed as class methods.  In accordance with Alexander's model of the evolution of form, this redistribution of symmetry doesn't correspond to a decomposition tree:  instead, the Context cuts across several objects.  Alexander maintained that such entangled structures must be at the foundation of any system that is “alive.” (Christopher Alexander, A City is Not a Tree, Architectural Forum, 122(1), pp. 58-62, April 1965) What Risto's diagram does not show is the breaking of symmetry across the static code structure and the run-time code structure.  
+
+見方によっては、DCIは、モデルの持つ局所的な対称性を、システムレベルのアクションと局所的な関心事のために分化された場所に再配分するのだともとれる。DCIには\textsf{コンテキスト}という概念が導入されている。これはロールメソッドの対称性を構成するものであり、以前はクラスメソッドと呼ばれていたものだ。型の進化に対するAlexanderのモデルとの対応で言えば、対称性のこの再配分は、ツリー構造での分解と対応しない。そうではなく、コンテキストはいくつかのオブジェクトをまたがるのだ。Alexanderによれば、このようなもつれ合った構造は、あらゆる「活きた」システムの基礎にならなければならない(Christopher Alexander, \textit{A City is Not a Tree}, Architectural Forum, 122(1), pp. 58-62, April 1965)。Ristoの図に示されていないのは、静的なコード構造と動的なコード構造との間に存在する対称性の「破れ」だ。
+
+%In this sense, we make the (albeit speculative) argument that DCI could represent a natural evolution of object structure into its next generation.  We are reminded that the simplistic, pure symmetry of early object orientation is unlikely to be right:  
+
+この意味において、DCIはオブジェクト構造が次の世代へと向かう自然な進化を表現しているかもしれないと論じることができる（いくぶん推測的ではあるが）。DCIにより、我々は初期のオブジェクト指向に見られた単純で純粋な対称性が、おそらく正しくなさそうだということを思い出させられた。  
+
+\begin{quote}
+%Living things, though often symmetrical, rarely have perfect symmetry.  Indeed perfect symmetry is often a mark of death in things, rather than life.  I believe the lack of clarity in the subject has arisen because of a failure to distinguish overall symmetry from local symmetries.  
+
+生物は対称的であることが多いが、完璧な対称性を有していることは滅多にない。したがって、完璧な対称性は、物事における生よりも死を表していることが多いのだ。この問題について不明瞭な理由は、全体的な対称性と局所的な対称性を区別できていないせいであると私は信じている。  
+\end{quote}
+%We can also reiterate Alexander's words from Chapter 9 of Timeless Way of Building, applied now to computer software instead of buildings:  
+
+さらに、「\textit{Timeless Way of Building}」第9章でAlexanderが語っている言葉を再び引用して、今度は建物の代わりにコンピュータソフトウェアに当てはめることもできる。
+\begin{quote}
+%It is a geometrical image, it is far more than the knowledge of the problem;  it is the knowledge of the prob- lem, coupled with the knowledge of the kinds of geometrics which will solve the problem, and coupled with the feeling which is created by that kind of geometry solving that problem.  
+
+これは、幾何学的なイメージであり、問題に関する知識に留まるものではない。問題を解決するための幾何学の知識と結びついており、その問題を解決しつつある幾何学によって作り出された感性と結びついているのだ。  
+\end{quote}
+%And if we compare Risto's diagram with any equivalent UML representation, we can likely claim Alexanders stipulation about ma:  
+
+そして、Ristoの図をそれと対応するUMLの表現と比較すれば、Alexanderの「\textsf{間}」に関する規定に近づくことができる。
+\begin{quote}
+%And finally, of course, I want to paint a picture which allows me to understand the patterns of events which keep on happening in the thing whose structure I seek.  In other words, I hope to find a picture, or a structure, which will, in some rather obvious and simple sense, account for the outward properties, for the pattern of events of the thing which I am studying.  
+
+もちろん、最後に出来事のパターンを理解できるようにするための絵を描きたい。そうしたパターンは私が構造を求め続けている物事の中で生起し続けているのだ。換言すれば、私が見出したい絵ないし構造は、はっきりとしたシンプルな意味において、外へと向かう価値を説明するものであり、私が研究している物事の出来事のパターンを説明するものでもあるのだ。  
+\end{quote}
+%Perhaps, for the first time in computing, the deep principles of object orientation have come to fruition.  
+
+おそらく、処理を最初に行う時になって、オブジェクト指向の深い原則が実現されることになるだろう。
+
+%Conclusion 
+\section*{結論}  
+%The original goals of the pattern community were noble, and derived from a broad vision of human dignity and service of the architect Christopher Alexander.  The pattern community continues to thrive as a culture of mutual support and of value in sharing good ideas.  However, patterns themselves have become vulgar.  Even the best pattern never mastered the Japanese concept of ma:  of integrating form and function, space and time.  However, the pattern values live on in the Agile community.  DCI is one of the most concrete manifestations of the architectural expression of these principles to- day -- including the form of function. 
+
+パターンコミュニティが元々目指していた目標は気高いものであり、人間の尊厳に関する幅広い視野と、建築家であるChristopher Alexanderの仕事から導き出されたものであった。パターンコミュニティはその後も、助け合いの場として栄え続け、優れたアイデアを共有するという価値をもたらした。しかし、パターンそれ自体は大衆化してしまったのだ。最も優れたパターンですら、日本の「間」という概念を習得していない。「間」とは型と機能の統合であり、空間と時間の統合なのだ。だが、パターンの価値はアジャイルコミュニティで生き続けている。DCIとは、型と機能とを含むこうした価値をアーキテクチャ的に表現した最も具体的な宣言なのだ。
